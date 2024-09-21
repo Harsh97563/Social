@@ -34,7 +34,8 @@ export const authOptions: NextAuthOptions = {
                             userId: true,
                             email: true,
                             password: true,
-                            isVerified: true
+                            isVerified: true,
+                            profilePicSrc: true
                         }
                     })
                     
@@ -50,7 +51,8 @@ export const authOptions: NextAuthOptions = {
                             username: userDb.username,
                             userId: userDb.userId,
                             email: userDb.email,
-                            isVerified: userDb.isVerified
+                            isVerified: userDb.isVerified,
+                            profilePicSrc: userDb.profilePicSrc,
                         }
                     }
 
@@ -60,12 +62,14 @@ export const authOptions: NextAuthOptions = {
                     const user = await prisma.user.create({
                         data: {
                             email: credentials.email,
-                            password: hashedPassword
+                            password: hashedPassword,
+                            profilePicSrc: "https://res.cloudinary.com/dc8yqhawq/image/upload/v1726839243/sokwk28elnyvhtwxm4hq.jpg"
                         },
                         select: {
                             email: true,
                             userId: true,
-                            isVerified: true
+                            isVerified: true,
+                            profilePicSrc: true,
                         }
 
                     })
@@ -76,6 +80,7 @@ export const authOptions: NextAuthOptions = {
                         email: user.email,
                         userId: user.userId,
                         isVerified: user.isVerified,
+                        profilePicSrc: user.profilePicSrc
                     }
 
 
@@ -109,7 +114,8 @@ export const authOptions: NextAuthOptions = {
                             username: true,
                             userId: true,
                             email: true,
-                            isVerified: true
+                            isVerified: true,
+                            profilePicSrc: true,
                         }
                     })
     
@@ -118,6 +124,7 @@ export const authOptions: NextAuthOptions = {
                         user.username = userDb.username;
                         user.userId = userDb.userId;
                         user.isVerified = userDb.isVerified;
+                        user.profilePicSrc = userDb.profilePicSrc
     
                     }
     
@@ -126,13 +133,15 @@ export const authOptions: NextAuthOptions = {
                         const createdUser = await prisma.user.create({
                             data: {
                                 email: profile.email,
-                                isVerified: true
+                                isVerified: true,
+                                profilePicSrc: "https://res.cloudinary.com/dc8yqhawq/image/upload/v1726839243/sokwk28elnyvhtwxm4hq.jpg"
                             },
                             select: {
                                 username: true,
                                 userId: true,
                                 email: true,
-                                isVerified: true
+                                isVerified: true,
+                                profilePicSrc: true,
                             }
                         })
     
@@ -141,6 +150,7 @@ export const authOptions: NextAuthOptions = {
                             user.username = createdUser.username;
                             user.userId = createdUser.userId;
                             user.isVerified = createdUser.isVerified;
+                            user.profilePicSrc = createdUser.profilePicSrc;
                         }
     
                     }
@@ -157,11 +167,12 @@ export const authOptions: NextAuthOptions = {
         async jwt({token, user}) {
 
             if(user && user.email) {
-
+                
                 token.username = user.username;
                 token.userId = user.userId;
                 token.email = user.email;
                 token.isVerified = user.isVerified;
+                token.profilePicSrc = user.profilePicSrc;
             }
             return token
         },
@@ -172,6 +183,7 @@ export const authOptions: NextAuthOptions = {
             session.userId = token.userId;
             session.email = token.email;
             session.isVerified = token.isVerified;
+            session.profilePicSrc = token.profilePicSrc;
 
             return session;
         }

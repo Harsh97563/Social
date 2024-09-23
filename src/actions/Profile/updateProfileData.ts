@@ -20,7 +20,7 @@ export async function updateProfileData({data, type}: {data: any, type: updateTy
                     type: updateType.PROFILEPIC
                 })
 
-                const dbResponse = await axios.post('/api/profile', body)
+                const dbResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/profile`, body)
                 return {
                     url: responseData.data.secure_url,
                 }
@@ -28,7 +28,7 @@ export async function updateProfileData({data, type}: {data: any, type: updateTy
 
             case updateType.USERNAME:
 
-                await axios.post('/api/profile', {
+                await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/profile`, {
                     data,
                     type
                 })

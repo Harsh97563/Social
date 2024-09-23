@@ -1,7 +1,7 @@
 'use client'
 import { updateProfileData } from '@/actions/Profile/updateProfileData';
+import { ProfileType } from '@/types/profileType';
 import { LoaderCircle, Pencil, UserPen } from 'lucide-react'
-import { Session } from 'next-auth';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react'
 
@@ -12,14 +12,14 @@ export enum updateType {
   EMAIL
 }
 
-function ProfileCard({session}: {session: Session | null}) {  
+function ProfileCard({profileData}: {profileData: ProfileType}) {  
     
   const fileInputRef = useRef<HTMLInputElement | undefined>();
-  const [username, setUsername] = useState('aap');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState(profileData.username || "");
+  const [email, setEmail] = useState(profileData.email);
   const [editFields, setEditFields] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [profilePicUrl, setProfilePicUrl] = useState(session?.profilePicSrc)
+  const [profilePicUrl, setProfilePicUrl] = useState(profileData.profilePicSrc)
 
 
   async function handleUpdate({e, type}: {e: React.ChangeEvent<HTMLInputElement> | null , type: updateType}) {
@@ -64,7 +64,7 @@ function ProfileCard({session}: {session: Session | null}) {
 
 
   return (
-    <div className='relative w-full flex flex-col border bg-[#41B3A2] rounded-2xl px-12 py-4'>
+    <div className='relative w-full flex border border-[#00A8CC] flex-col bg-[#0F4C75] rounded-2xl px-12 py-4 drop-shadow-2xl shadow-2xl shadow-black'>
       <UserPen 
       className='absolute right-3'
       onClick={() => setEditFields(!editFields)}
@@ -76,9 +76,9 @@ function ProfileCard({session}: {session: Session | null}) {
             alt='profile-pic' 
             width={200} 
             height={200} 
-            className='rounded-full border-2 border-purple-600'/>
+            className='rounded-3xl border-2 border-purple-600'/>
 
-            <button className={`absolute group flex items-center justify-center ${isUploading ? 'bg-black' : ""} hover:bg-black opacity-90 top-0 left-0 rounded-full w-[200px] h-[200px]`}
+            <button className={`absolute group flex items-center justify-center ${isUploading ? 'bg-black' : ""} hover:bg-black opacity-90 top-0 left-0 rounded-3xl w-[200px] h-[200px]`}
             onClick={() => {
               fileInputRef.current?.click()
             }}

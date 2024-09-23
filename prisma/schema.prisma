@@ -21,5 +21,15 @@ model User {
   profilePicSrc    String?   
   password         String?
   isVerified       Boolean  @default(false)
-  verificationCode Int? 
+  verificationCode Int?
+  posts  Post[] 
+}
+
+model Post {
+  userId String 
+  postId String @unique @default(cuid())
+  caption String?
+  files  String[] @default([])
+  user User @relation(fields: [userId], references: [userId])
+  
 }

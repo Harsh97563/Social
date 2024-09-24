@@ -1,14 +1,19 @@
 'use client'
 import {postData} from '@/actions/Post/postData'
 import { ContentCarousel } from '@/components/ContentCarousel';
-import { Delete, FileUp, Image, Trash2 } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast';
+import { FileUp, Image, Loader2, Trash2 } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useRef, useState } from 'react'
 
 function Post() {
 
     const fileRef = useRef<HTMLInputElement>();
-    const [caption, setcaption] = useState<string | null>('');
+    const [caption, setcaption] = useState<string>('');
     const [files, setFiles] = useState<File[]>([]);
+    const [isPosting, setIsPosting] = useState(false)
+    const {toast} = useToast();
+    const router = useRouter()
 
     function handleFileChnage(e: ChangeEvent<HTMLInputElement>) {
 
@@ -21,25 +26,48 @@ function Post() {
 
     async function handlePost() {
 
-        if(!caption && !files) return
-        try {
+        if(!caption && !files.length){
+            toast({
+                description: "Either caption or file needed.",
+                className: "bg-gray-950 text-white border-red-500",
+                duration: 2000
+            })
+            return
+        }
 
+        try {
+            setIsPosting(true)
             const response = await postData({files, caption});
 
-            if(response?.success === false) {
-                alert(response.message)
-            }
-            alert("Posted successfully.")
+            if(!response?.success) throw new Error();
+
+            toast({
+                description: "Posted Successfully.",
+                className: "bg-gray-950 text-white border-green-500",
+                duration: 2000
+            })
+            router.push('/')
+            
         } catch (error) {
-            console.log("Unexpected error occured.", error);
-            alert("Unexpected error occured.")
+
+            toast({
+                description: "Unexpected error occured.",
+                className: "bg-gray-950 text-white border-red-500",
+                duration: 2000
+            })
+
+        } finally {
+            setIsPosting(false)
+            setcaption('')
+            setFiles([])
         }
     }
 
   return (
 
-    <div className='w-[720px] mt-24 flex flex-col bg-gray-700 rounded-3xl p-5 '>
+    <div className='md:w-[720px] mx-2 md:mx-auto mt-5 flex flex-col bg-gray-700 rounded-3xl p-5 '>
         <textarea
+        value ={caption}
         placeholder='Give it a cool caption!'
         className='bg-transparent outline-none text-white text-xl overflow-hidden resize-none min-h-[40px] max-h-[300px]'
         onInput={(e: any) => {
@@ -47,6 +75,7 @@ function Post() {
             e.target.style.height = `${e.target.scrollHeight}px`
         }}
         onChange={(e)=> setcaption(e.target.value)}
+        disabled={isPosting}
         />
         <div className='text-white flex flex-col min-h-[375px] items-center justify-center bg-gray-950 rounded-3xl overflow-hidden mt-7 '
         >
@@ -79,12 +108,14 @@ function Post() {
         multiple={true}
         className='invisible'
         onChange={(e) => handleFileChnage(e)}
+        disabled={isPosting}
         />
         <button
-        className='text-white bg-gray-950 p-2 text-xl rounded-3xl'
+        className='text-white flex justify-center bg-gray-950 disabled:bg-gray-800 disabled:cursor-not-allowed p-2 text-xl rounded-3xl'
         onClick={handlePost}
+        disabled={isPosting}
         >
-            Post!
+            {isPosting ? <Loader2 size={32} className=' animate-spin'/> : "Post!"}
         </button>
     </div>
   )

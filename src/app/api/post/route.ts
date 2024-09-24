@@ -28,8 +28,7 @@ export async function POST(req: NextRequest) {
                 userId: session.userId,
                 caption: body.caption,
                 files: body.files,
-            },
-            select: {}
+            }
         })
         
         return NextResponse.json({
@@ -38,6 +37,7 @@ export async function POST(req: NextRequest) {
         }, {status: 200})
 
     } catch (error) {
+        
         console.log("Error in posting in db.",error);
         return NextResponse.json({
             msg: "Unexpected error occurs.",

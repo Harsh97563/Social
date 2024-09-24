@@ -8,7 +8,7 @@ export async function postData({files, caption}: {files: File[], caption: string
             files.map(async(file) => {
                 const formData = new FormData();
                 formData.append("file",file);
-                formData.append("upload_preset", "vt0buar9");
+                formData.append("upload_preset", `${process.env.NEXT_PUBLIC_CLUDINARY_PRESET_POST_KEY}` );
     
                 const cloudinaryUrl = process.env.NEXT_PUBLIC_CLOUDINARY_API_URL;
                 
@@ -18,7 +18,7 @@ export async function postData({files, caption}: {files: File[], caption: string
     
                 const responseData = await axios.post(cloudinaryUrl, formData);
                 if(responseData.status != 200) {
-                    throw new Error("File upload failed")
+                    throw new Error("File upload failed.")
                 }
 
                 return responseData.data.secure_url;
@@ -38,7 +38,6 @@ export async function postData({files, caption}: {files: File[], caption: string
         console.log("Error posting data.", error);
         return {
             success: false,
-            message: error.message || "Error in posting. Please try again."
         }
     }
 

@@ -16,11 +16,14 @@ function ProfileCard({profileData}: {profileData: ProfileType}) {
     
   const fileInputRef = useRef<HTMLInputElement | undefined>();
   const [username, setUsername] = useState(profileData.username || "");
-  const [email, setEmail] = useState(profileData.email);
-  const [editFields, setEditFields] = useState(false);
+  // const [email, setEmail] = useState(profileData.email);
+  const [editFields, setEditFields] = useState(()=> {
+    if(!profileData.username) return true
+    else false
+  });
   const [isUploading, setIsUploading] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(profileData.profilePicSrc)
-
+  const usernameRef = useRef<HTMLInputElement | null>(null);
 
   async function handleUpdate({e, type}: {e: React.ChangeEvent<HTMLInputElement> | null , type: updateType}) {
     
@@ -35,7 +38,7 @@ function ProfileCard({profileData}: {profileData: ProfileType}) {
 
           const formData = new FormData()
           formData.append('file', file);
-          formData.append('upload_preset', 'a13uakgm')
+          formData.append('upload_preset', `${process.env.NEXT_PUBLIC_CLUDINARY_PRESET_PROFILE_KEY}`)
 
           const res:any = await updateProfileData({data: formData, type})
           console.log("here", res);
@@ -64,11 +67,14 @@ function ProfileCard({profileData}: {profileData: ProfileType}) {
 
 
   return (
-    <div className='relative w-full flex border border-[#00A8CC] flex-col bg-[#0F4C75] rounded-2xl px-12 py-4 drop-shadow-2xl shadow-2xl shadow-black'>
-      <UserPen 
-      className='absolute right-3'
+    <div className='relative w-full flex mx-auto border border-[#00A8CC] flex-col bg-[#0F4C75] rounded-2xl px-12 py-4 drop-shadow-2xl shadow-2xl shadow-black'>
+      <div
+      className='flex space-x-2 items-center cursor-pointer text-white bg-gray-950 rounded-2xl p-2 absolute right-3'
       onClick={() => setEditFields(!editFields)}
-      />
+      > 
+        <p>Edit</p>
+        <UserPen size={20} />
+      </div>
         <div className='w-full flex justify-between items-center'>
           <div className='relative'>
 
@@ -99,10 +105,15 @@ function ProfileCard({profileData}: {profileData: ProfileType}) {
             />
           </div>
           <div className='flex flex-col'>
-            <input 
+            <div
+            className={`${profileData.username? "invisible" : "visible"} text-xl text-white`}
+            >Please pick a username to continue.</div>
+            <input
+            ref={usernameRef} 
             value={username} 
             type="text" 
-            className={`bg-transparent outline-none`}
+            placeholder='Click here to enter username'
+            className={`outline-none text-xl p-2 text-white ${editFields ? "bg-gray-950 rounded-2xl" : "bg-transparent"}`}
             disabled={!editFields}
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={(e) => {
@@ -111,22 +122,22 @@ function ProfileCard({profileData}: {profileData: ProfileType}) {
               }
             }}
             />
-            <input 
+            {/* <input 
             value={email} 
             type="text" 
             className={`${!editFields ? "invisible" : "visible"} bg-transparent outline-none`}
             disabled={!editFields}
-            />
+            /> */}
           </div>
         </div>
-        <div className='w-full flex justify-around mt-5'>
+        {/* <div className='w-full flex justify-around mt-5'>
           <div>
             <h2 className='text-2xl'>Followers</h2>
           </div>
           <div>
             <h2 className='text-2xl'>Following</h2>
           </div>
-        </div>
+        </div> */}
       </div>
   )
 }

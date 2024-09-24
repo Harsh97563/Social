@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel"
 import Image from "next/image"
 
-export function ContentCarousel({files}: {files: File[]}) {
+export function ContentCarousel({files}: {files: File[] | string[]}) {
 
     const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
@@ -40,13 +40,13 @@ export function ContentCarousel({files}: {files: File[]}) {
               <div className="flex flex-col relative w-full h-full items-center justify-center">
                 <div className="max-h-[375px]">
                   <img
-                  src={URL.createObjectURL(file)}
+                  src={file instanceof File ? URL.createObjectURL(file) : file}
                   alt={`Preview ${index + 1}`}
                   className="w-full h-full"
                   />
                   <img
-                  src={URL.createObjectURL(file)}
-                  alt='' 
+                  src={file instanceof File ? URL.createObjectURL(file) : file}
+                  alt={`Background ${index + 1}`} 
                   className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-3xl bg-black opacity-30 -z-10 blur-xl"
                   />
                 </div>

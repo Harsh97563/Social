@@ -13,7 +13,7 @@ async function Profile() {
   }
   
   return (
-    <div className=' min-w-[720px] h-screen pt-28'>
+    <div className='w-[720px] mx-auto h-screen mt-5'>
         <ProfileCard 
         profileData={profileData}
         />  

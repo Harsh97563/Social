@@ -27,7 +27,7 @@ model User {
 
 model Post {
   userId String 
-  postId String @unique @default(cuid())
+  postId String @unique @id @default(cuid())
   caption String?
   files  String[] @default([])
   user User @relation(fields: [userId], references: [userId])

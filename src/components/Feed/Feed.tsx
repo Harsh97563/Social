@@ -7,6 +7,8 @@ import FeedLoading from './Loading';
 import { LoaderCircle } from 'lucide-react';
 import { useInView } from "react-intersection-observer";
 import { PostType } from '@/types/postType';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 
 async function getFeeds({pageParam = 1}) {
@@ -56,14 +58,13 @@ function Feed() {
   return (
     <div className='flex flex-col h-full w-[720px] min-h-screen p-2 md:p-5 md:border-x text-white'>
         {!data ? <FeedLoading/>: 
-        data?.pages.map((page) => (
-            <>
+        data?.pages.map((page, i) => (
+            <div key={i}>
                 {page?.feeds.map((post: PostType) => (
-                    <>
-                        <FeedPost key={post.postId} postData={post}/>
-                    </>
+
+                    <FeedPost key={post.postId} postData={post}/>
                 ))}
-            </>
+            </div>
         ))}
 
         <div 

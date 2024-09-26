@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         if(!session) {
             return NextResponse.json({
                 msg: "Invalid Session."
-            }, {status: 400})
+            }, {status: 403})
         }
         
         if(!body.files.length && !body.caption) {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
         await prisma.post.create({
             data: {
-                userId: session.userId,
+                userId: session.user.userId,
                 caption: body.caption,
                 files: body.files,
             }

@@ -1,5 +1,5 @@
 import 'next-auth';
-
+import { DefaultSession } from 'next-auth';
 
 declare module "next-auth" {
 
@@ -10,13 +10,15 @@ declare module "next-auth" {
         profilePicSrc: string | null,
     }
 
-    interface Session {
-        username: string | null,
-        userId: string,
-        email: string,
-        isVerified: boolean,
-        profilePicSrc: string | null,
-    }
+    interface Session { 
+    user: {
+      username: string | null;
+      userId: string;
+      email: string;
+      isVerified: boolean;
+      profilePicSrc: string | null;
+    } & DefaultSession["user"];
+  }
 }
 
 declare module "next-auth/jwt" {

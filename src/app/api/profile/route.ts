@@ -2,13 +2,13 @@ import prisma from "@/utils/prismaSingleton";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
+import { signIn } from "next-auth/react";
 
 
 
 export async function POST(req: NextRequest) {
 
     const session = await getServerSession(authOptions);
-
 
     try {
 
@@ -17,40 +17,44 @@ export async function POST(req: NextRequest) {
             msg: "Invalid Session/data."
         })
 
-        
         switch (data.type) {
             case 0:
                 const res = await prisma.user.update({
                     where: {
-                        userId: session?.userId
+                        userId: session.user.userId
                     },
                     data: {
-                        profilePicSrc: data.resData.secure_url,
+                        profilePicSrc: data.data,
                     }
                 })
 
                 return NextResponse.json({
-                    msg: "Updated Profile Picture Successfully."
+                    message: "Updated Profile Picture Successfully."
                 }, {status: 200})
                 
             case 1:
-                const res1 = await prisma.user.update({
+                await prisma.user.update({
                     where: {
-                        userId: session.userId
+                        userId: session.user.userId
                     },
                     data: {
                         username: data.data
                     }
                 })
-
+                
                 return NextResponse.json({
-                    msg: "Updated Username Successfully."
+                    message: "Updated Username Successfully."
                 }, {status: 200})
 
         }
+        
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({msg: "Error in updating DB."}, {status: 400})
+
+        console.log("Error in updating profile data in db.", error);
+        return NextResponse.json({
+            message: "Error in updating DB."
+        }, {status: 400})
+
     }
     
 }

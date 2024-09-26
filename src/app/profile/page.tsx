@@ -8,12 +8,12 @@ async function Profile() {
 
   if(!profileData) {
     return <div>
-      Hello
+      Error in fetching.
     </div>
   }
   
   return (
-    <div className='w-[720px] mx-auto h-screen mt-5'>
+    <div className='w-[720px] mx-auto h-screen mt-3 p-2'>
         <ProfileCard 
         profileData={profileData}
         />  

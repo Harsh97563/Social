@@ -164,10 +164,14 @@ export const authOptions: NextAuthOptions = {
             return true;
         },
 
-        async jwt({token, user}) {
+        async jwt({token,trigger, user, session}) {
 
+            if(trigger === "update") {
+                token.username = session.username
+            }
+            
             if(user && user.email) {
-                
+                    
                 token.username = user.username;
                 token.userId = user.userId;
                 token.email = user.email;
@@ -177,13 +181,17 @@ export const authOptions: NextAuthOptions = {
             return token
         },
 
-        async session({session, token}) {
+        async session({session, token, trigger, newSession}) {
 
-            session.username = token.username;
-            session.userId = token.userId;
-            session.email = token.email;
-            session.isVerified = token.isVerified;
-            session.profilePicSrc = token.profilePicSrc;
+            if(trigger === "update") {
+                session.user.username = newSession.username;
+            }
+
+            session.user.username = token.username;
+            session.user.userId = token.userId;
+            session.user.email = token.email;
+            session.user.isVerified = token.isVerified;
+            session.user.profilePicSrc = token.profilePicSrc;
 
             return session;
         }

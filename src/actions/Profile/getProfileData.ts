@@ -6,13 +6,15 @@ import { getServerSession } from "next-auth";
 
 export async function getProfileData() {
     try {
+        
         const session = await getServerSession(authOptions);
+
         if(!session) {
             return
         }
         const data = await prisma.user.findUnique({
             where: {
-                userId: session.userId
+                userId: session.user.userId
             },
             select: {
                 username: true,

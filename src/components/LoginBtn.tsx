@@ -1,18 +1,17 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
-import { getServerSession } from 'next-auth'
+'use client'
 import React from 'react'
-import PostBtn from './PostBtn';
+import { signIn } from 'next-auth/react';
 
 async function LoginBtn() {
-    const session = await getServerSession(authOptions);
 
   return (
-    <div>
-        {session ? <PostBtn/> : 
-        <button>
-            Login
-        </button>}
-    </div>
+    <>
+      <button className='bg-gray-600 p-2 rounded-xl'
+      onClick={() => signIn()}
+      >
+        Login
+      </button>
+    </>
   )
 }
 

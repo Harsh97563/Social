@@ -1,21 +1,30 @@
 'use client'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import React, { FormEvent, useState } from 'react'
 import {Loader} from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 
 function SignIn() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, seterror] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 
     e.preventDefault()
     
-    if(!username || !password) {
+    if(!email || !password) {
       seterror("Please fill all fields.")
+      return
+    }
+    
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const emailValidation = emailRegex.test(email);
+    if(!emailValidation) {
+      seterror("Invalid Email.")
       return
     }
 
@@ -24,24 +33,37 @@ function SignIn() {
       return
     }
 
+
     setIsLoading(true);
     seterror('');
 
     try {
+
       const response = await signIn("credentials", {
         redirect: false,
         callbackUrl: "/",
-        email: username,
+        email,
         password
       })
       
       if(response?.error) {
         console.log(error);
         seterror("Invalid Credentials.")
-      }else {
-        window.location.href = "/"
+        return
       }
-      
+
+      if(response?.ok) {
+        const session = await getSession();
+
+        if(!session?.user.username) {
+          router.push('/profile')
+          return
+        } else {
+          router.push('/')
+        }
+
+      }
+
     } catch (error) {
       console.log(error);
       seterror("Unexpected error occurs.")
@@ -49,14 +71,13 @@ function SignIn() {
     } finally {
 
       setIsLoading(false)
-
     }
 
   }
 
   return (
 
-    <div className='flex w-full h-screen items-center justify-center '>
+    <div className='flex w-full h-screen text-white bg-gradient-to-tr from-[#0F2027] from-10% to-[#2C5364] to-90% items-center justify-center '>
       <div className='flex space-y-3 flex-col bg-gray-800 p-10 rounded-3xl'>
         <button className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl mb-5'
         onClick={() => signIn('google', {
@@ -76,18 +97,20 @@ function SignIn() {
             {error}
           </div>
           <input 
-          className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl outline-none' 
+          className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70' 
           type="text" 
           placeholder='Username'
-          value={username}
+          disabled={isLoading}
+          value={email}
           onChange={(e) => {
-            setUsername(e.target.value)
+            setEmail(e.target.value)
             seterror('')
           }} 
           />
           <input 
-          className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl outline-none'
+          className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70'
           type="password" 
+          disabled={isLoading}
           placeholder='Password'
           value={password}
           onChange={(e) => {
@@ -96,7 +119,7 @@ function SignIn() {
           }} 
           />
           
-          <button className={`flex bg-gray-900 p-5 w-[20vw] justify-center rounded-lg text-xl disabled:cursor-not-allowed`}
+          <button className={`flex bg-gray-900 p-5 w-[20vw] justify-center rounded-lg text-xl disabled:cursor-not-allowed disabled:opacity-70`}
           disabled = {isLoading}
           >{isLoading? 
           <Loader className=' animate-spin'/> :"Sign In"

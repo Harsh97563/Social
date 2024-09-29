@@ -27,8 +27,10 @@ export enum updateType {
 }
 
 function EditingModel({profileData, isEditing, setIsEditing, username, setUsername, email, setEmail, profilePicUrl, setProfilePicUrl}: EditingModelType ) {
+
     const [isUploading, setIsUploading] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const [error, setError] = useState< string | null>(null)
     const {toast} = useToast();
     const { update } = useSession();
 
@@ -52,6 +54,12 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
             }
 
             if( email !== profileData.email) {
+                const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                const emailValidation = emailRegex.test(email);
+                if(!emailValidation) {
+                    setError("Invalid Email.")
+                    throw new Error("Invalid Email.")
+                }
                 const response = await updateProfileData({data: email, type: updateType.EMAIL})
                 if(!response.success) {
                     throw new Error(response.message)
@@ -85,6 +93,7 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
             toast({
                 title: error.message || "Unexpected error occured.",
                 duration: 2000,
+                className: "border-2 border-red-900 text-white bg-gray-500"
             })
 
         } finally {

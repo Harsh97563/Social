@@ -2,7 +2,7 @@
 import React from 'react'
 import { signIn } from 'next-auth/react';
 
-async function LoginBtn() {
+function LoginBtn() {
 
   return (
     <>

@@ -20,8 +20,8 @@ function PostBtn({session}: {session: Session}) {
         </button>
         <Popover>
           <PopoverTrigger>
-            {session.profilePicSrc ? <Image
-              src={session.profilePicSrc}
+            {session.user.profilePicSrc ? <Image
+              src={session.user.profilePicSrc}
               alt=''
               width={40}
               height={40}

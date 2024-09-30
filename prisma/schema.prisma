@@ -23,6 +23,7 @@ model User {
   isVerified       Boolean  @default(false)
   verificationCode Int?
   posts  Post[] 
+  createdAt DateTime @default(now())
 }
 
 model Post {
@@ -31,5 +32,5 @@ model Post {
   caption String?
   files  String[] @default([])
   user User @relation(fields: [userId], references: [userId])
-  
+  createdAt DateTime @default(now())
 }

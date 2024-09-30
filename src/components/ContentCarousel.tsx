@@ -33,7 +33,7 @@ export function ContentCarousel({files}: {files: File[] | string[]}) {
 
   return (
     <div className="">
-      <Carousel setApi={setApi} className="w-full relative">
+      <Carousel setApi={setApi} className="w-full relative ">
         <CarouselContent>
           {files.map((file, index) => (
             <CarouselItem key={index}>
@@ -54,11 +54,11 @@ export function ContentCarousel({files}: {files: File[] | string[]}) {
             </CarouselItem>
           ))}
         </CarouselContent>
-                <div className="absolute right-5 bottom-1 py-2 text-center text-sm text-muted-foreground">
-                  {current}/{count}
-                </div>
-        <CarouselPrevious />
-        <CarouselNext />
+        <div className="absolute right-5 bottom-1 py-2 text-center text-sm text-muted-foreground">
+          {current}/{count}
+        </div>
+        <CarouselPrevious className="absolute"/>
+        <CarouselNext className="absolute" />
       </Carousel>
     </div>
   )

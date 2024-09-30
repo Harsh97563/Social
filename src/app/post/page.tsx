@@ -103,9 +103,9 @@ function Post() {
                 />
             </div>
         </div>
-        <div className={`text-white flex flex-col min-h-[375px] items-center justify-center bg-gray-950 ${isPosting ? "bg-gray-800 cursor-not-allowed" : ""} rounded-3xl overflow-hidden mt-7 `}
+        <div className={`relative text-white flex group flex-col min-h-[375px] items-center justify-center bg-gray-950 ${isPosting ? "bg-gray-800 cursor-not-allowed" : ""} rounded-3xl overflow-hidden mt-7 `}
         >
-            {files.length ? <div className='relative group'>
+            {files.length ? <div>
                 <ContentCarousel files={files}/>
                 <Image size={30} className='absolute invisible group-hover:visible cursor-pointer right-16 bg-black rounded-full p-1 text-white top-2'
                 onClick={() => fileRef.current?.click()}
@@ -115,7 +115,7 @@ function Post() {
                 />
 
             </div>  :
-                <div className='w-full h-full flex flex-col items-center justify-center hover:cursor-pointer bg-transparent'
+                <div className='absolute w-full h-full flex flex-col items-center justify-center hover:cursor-pointer bg-transparent'
                 onClick={() => fileRef.current?.click()}
                 >
                     <div>

@@ -3,7 +3,6 @@ import React from 'react'
 import { ContentCarousel } from '../ContentCarousel'
 import Image from 'next/image'
 import { PostType } from '@/types/postType'
-import LikeBtn from './Btns/LikeBtn'
 
 
 function FeedPost({postData}: {postData: PostType}) {

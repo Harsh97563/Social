@@ -2,7 +2,7 @@
 import {postData} from '@/actions/Post/postData'
 import { ContentCarousel } from '@/components/ContentCarousel';
 import { useToast } from '@/hooks/use-toast';
-import { FileUp, Image, Loader2, SmilePlus, Trash2 } from 'lucide-react'
+import { FileUp, ImageIcon, Loader2, SmilePlus, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
@@ -79,6 +79,7 @@ function Post() {
         value ={caption}
         placeholder='Give it a cool caption!'
         className='bg-transparent outline-none text-white text-xl overflow-hidden resize-none min-h-[40px] max-h-[300px]'
+        // Change ANYYY
         onInput={(e: any) => {
             e.target.style.height = 'auto';
             e.target.style.height = `${e.target.scrollHeight}px`
@@ -107,7 +108,7 @@ function Post() {
         >
             {files.length ? <div>
                 <ContentCarousel files={files}/>
-                <Image size={30} className='absolute invisible group-hover:visible cursor-pointer right-16 bg-black rounded-full p-1 text-white top-2'
+                <ImageIcon size={30} className='absolute invisible group-hover:visible cursor-pointer right-16 bg-black rounded-full p-1 text-white top-2'
                 onClick={() => fileRef.current?.click()}
                 />
                 <Trash2 size={30} className='absolute invisible group-hover:visible cursor-pointer right-6 bg-black rounded-full p-1 text-white top-2'
@@ -128,7 +129,7 @@ function Post() {
             }
         </div>
         <input
-        // @ts-ignore
+        // @ts-expect-error getting the types is creating problem
         ref={fileRef} 
         type="file"
         multiple={true}

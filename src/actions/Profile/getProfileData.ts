@@ -1,6 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/utils/prismaSingleton";
-import axios from "axios";
 import { getServerSession } from "next-auth";
 
 

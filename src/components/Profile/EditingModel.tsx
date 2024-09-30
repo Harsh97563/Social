@@ -30,7 +30,6 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
 
     const [isUploading, setIsUploading] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [error, setError] = useState< string | null>(null)
     const {toast} = useToast();
     const { update } = useSession();
 
@@ -49,7 +48,7 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                     throw new Error(response.message)
                 }
                 setUsername(username)
-                const data = await update({username})
+                await update({username})
                 
             }
 
@@ -57,7 +56,6 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
                 const emailValidation = emailRegex.test(email);
                 if(!emailValidation) {
-                    setError("Invalid Email.")
                     throw new Error("Invalid Email.")
                 }
                 const response = await updateProfileData({data: email, type: updateType.EMAIL})

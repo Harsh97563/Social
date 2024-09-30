@@ -2,7 +2,6 @@ import prisma from "@/utils/prismaSingleton";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
-import { signIn } from "next-auth/react";
 
 
 
@@ -19,7 +18,7 @@ export async function POST(req: NextRequest) {
 
         switch (data.type) {
             case 0:
-                const res = await prisma.user.update({
+                await prisma.user.update({
                     where: {
                         userId: session.user.userId
                     },

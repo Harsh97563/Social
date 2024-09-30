@@ -53,7 +53,7 @@ function ProfileCard({profileData}: {profileData: ProfileType}) {
       </div>
       
       <EditingModel
-      // @ts-ignore 
+      // @ts-expect-error same the type error
       isEditing={editFields} 
       setIsEditing={setEditFields} 
       profileData={profileData}

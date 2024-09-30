@@ -39,12 +39,12 @@ export function ContentCarousel({files}: {files: File[] | string[]}) {
             <CarouselItem key={index}>
               <div className="flex flex-col relative w-full h-full items-center justify-center">
                 <div className="max-h-[375px]">
-                  <img
+                  <Image
                   src={file instanceof File ? URL.createObjectURL(file) : file}
                   alt={`Preview ${index + 1}`}
                   className="w-full h-full"
                   />
-                  <img
+                  <Image
                   src={file instanceof File ? URL.createObjectURL(file) : file}
                   alt={`Background ${index + 1}`} 
                   className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-3xl bg-black opacity-30 -z-10 blur-xl"

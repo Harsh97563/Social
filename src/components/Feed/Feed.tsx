@@ -7,8 +7,6 @@ import FeedLoading from './Loading';
 import { LoaderCircle } from 'lucide-react';
 import { useInView } from "react-intersection-observer";
 import { PostType } from '@/types/postType';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 
 
 async function getFeeds({pageParam = 1}) {
@@ -44,7 +42,7 @@ function Feed() {
         queryKey: ['feeds'],
         queryFn: getFeeds,
         initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages) => lastPage?.nextPage ?? undefined
+        getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined
     })
     
     useEffect(() => {
@@ -53,7 +51,7 @@ function Feed() {
             fetchNextPage()
         }
         
-    }, [inView, hasNextPage])
+    }, [inView, hasNextPage, fetchNextPage])
     
   return (
     <div className='flex flex-col h-full w-[720px] min-h-screen p-2 md:p-5 md:border-x text-white'>

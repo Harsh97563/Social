@@ -3,6 +3,7 @@ import React from 'react'
 import { ContentCarousel } from '../ContentCarousel'
 import Image from 'next/image'
 import { PostType } from '@/types/postType'
+import LikeBtn from './Btns/LikeBtn'
 
 
 function FeedPost({postData}: {postData: PostType}) {
@@ -30,14 +31,14 @@ function FeedPost({postData}: {postData: PostType}) {
         }
 
         {postData.caption? 
-        <div className={`w-full bg-gray-950 pl-4 text-white p-2 ${!postData.files.length ? "rounded-t-3xl mt-2" : ""} `}>
+        <div className={`w-full bg-gray-950 pl-4 whitespace-pre-line text-white p-2 ${!postData.files.length ? "rounded-t-3xl mt-2" : ""} `}>
             {postData.caption}
         </div> : ""}
         
         <div className='flex w-full justify-end bg-gray-950 rounded-b-3xl text-white p-2 space-x-2'>
             <Share2 size={30}/>
             <MessageCircle size={30}/>
-            <Heart size={30} fill='red'/>
+            <Heart size={30}/>
         </div>
 
     </div>

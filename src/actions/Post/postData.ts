@@ -33,6 +33,10 @@ export async function postData({files, caption}: {files: File[], caption: string
         
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, datatoSend)
 
+        return {
+            success: true
+        }
+
 
     } catch (error: any) {
         console.log("Error posting data.", error);

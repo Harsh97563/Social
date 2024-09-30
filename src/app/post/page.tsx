@@ -2,16 +2,25 @@
 import {postData} from '@/actions/Post/postData'
 import { ContentCarousel } from '@/components/ContentCarousel';
 import { useToast } from '@/hooks/use-toast';
-import { FileUp, Image, Loader2, Trash2 } from 'lucide-react'
+import { FileUp, Image, Loader2, SmilePlus, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useRef, useState } from 'react'
+import dynamic from 'next/dynamic';
+import { Theme } from 'emoji-picker-react';
+const Picker = dynamic(
+  () => {
+    return import('emoji-picker-react');
+  },
+  { ssr: false }
+);
 
 function Post() {
 
     const fileRef = useRef<HTMLInputElement>();
     const [caption, setcaption] = useState<string>('');
     const [files, setFiles] = useState<File[]>([]);
-    const [isPosting, setIsPosting] = useState(false)
+    const [isPosting, setIsPosting] = useState(false);
+    const [emojiOpen, setEmojiOpen] = useState(false);
     const {toast} = useToast();
     const router = useRouter()
 
@@ -77,7 +86,24 @@ function Post() {
         onChange={(e)=> setcaption(e.target.value)}
         disabled={isPosting}
         />
-        <div className='text-white flex flex-col min-h-[375px] items-center justify-center bg-gray-950 rounded-3xl overflow-hidden mt-7 '
+        <div className='w-full flex justify-end invisible lg:visible'>
+            <SmilePlus
+            size={25}
+            className=' hover:cursor-pointer z-20 text-gray-200' 
+            onClick={() => setEmojiOpen(!emojiOpen)}
+            />
+            <div className='absolute z-40 mt-10'>
+                <Picker
+                open={emojiOpen}
+                theme={Theme.DARK}
+                searchDisabled={true}
+                className='w-full'
+                lazyLoadEmojis={true}
+                onEmojiClick={(emojiObj) => setcaption((prev) => prev + emojiObj.emoji )}
+                />
+            </div>
+        </div>
+        <div className={`text-white flex flex-col min-h-[375px] items-center justify-center bg-gray-950 ${isPosting ? "bg-gray-800 cursor-not-allowed" : ""} rounded-3xl overflow-hidden mt-7 `}
         >
             {files.length ? <div className='relative group'>
                 <ContentCarousel files={files}/>
@@ -89,7 +115,7 @@ function Post() {
                 />
 
             </div>  :
-                <div className='w-full h-full flex flex-col items-center justify-center hover:cursor-pointer'
+                <div className='w-full h-full flex flex-col items-center justify-center hover:cursor-pointer bg-transparent'
                 onClick={() => fileRef.current?.click()}
                 >
                     <div>

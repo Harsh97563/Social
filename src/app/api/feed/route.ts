@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import prisma from "@/utils/prismaSingleton";
 import { NextRequest, NextResponse } from "next/server";
 

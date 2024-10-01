@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import ProfileCard from '@/components/Profile/ProfileCard'
 import React from 'react'
 import { getProfileData } from '@/actions/Profile/getProfileData'

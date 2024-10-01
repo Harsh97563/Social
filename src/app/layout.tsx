@@ -31,8 +31,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-tr from-[#2b2e35] to-[#1c52a8] min-h-screen pt-14`}
       >
+        <Navbar/>
         <Provider>
-          <Navbar/>
           {children}
         </Provider>
         <Toaster/>

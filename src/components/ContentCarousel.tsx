@@ -32,34 +32,32 @@ export function ContentCarousel({files}: {files: File[] | string[]}) {
 
 
   return (
-    <div className="">
-      <Carousel setApi={setApi} className="w-full relative ">
+      <Carousel setApi={setApi} className="">
         <CarouselContent>
           {files.map((file, index) => (
             <CarouselItem key={index}>
-              <div className="flex flex-col relative w-full h-full items-center justify-center">
-                <div className="max-h-[375px]">
+              <div className="flex flex-col h-[375px] relative w-full">
                   <Image
                   src={file instanceof File ? URL.createObjectURL(file) : file}
                   alt={`Preview ${index + 1}`}
-                  className="w-full h-full"
+                  className=" object-contain"
+                  fill
                   />
                   <Image
                   src={file instanceof File ? URL.createObjectURL(file) : file}
-                  alt={`Background ${index + 1}`} 
-                  className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-3xl bg-black opacity-30 -z-10 blur-xl"
+                  alt={`Background ${index + 1}`}
+                  fill 
+                  className=" object-cover rounded-3xl bg-black -z-10 blur-xl opacity-30"
                   />
-                </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="absolute right-5 bottom-1 py-2 text-center text-sm text-muted-foreground">
+        <div className="absolute right-5 bottom-1 p-0.5 rounded-lg px-2 text-center text-sm bg-gray-900 ">
           {current}/{count}
         </div>
-        <CarouselPrevious className="absolute"/>
-        <CarouselNext className="absolute" />
+        <CarouselPrevious className="absolute invisible md:visible"/>
+        <CarouselNext className="absolute invisible md:visible" />
       </Carousel>
-    </div>
   )
 }

@@ -23,7 +23,7 @@ function FeedPost({postData}: {postData: PostType}) {
         </div>
         
         {postData.files.length ?
-        <div className={`text-white flex flex-col min-h-[375px] items-center justify-center bg-gray-950 rounded-t-3xl overflow-hidden mt-2`}> 
+        <div className={`bg-gray-950 rounded-t-3xl overflow-hidden mt-2`}> 
             <ContentCarousel files={postData.files}/>
         </div>
             : ""

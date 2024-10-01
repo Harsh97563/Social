@@ -18,14 +18,7 @@ async function Navbar() {
       className=' text-xl font-extrabold bg-gradient-to-r from-cyan-200 to-indigo-500 bg-clip-text text-transparent border-2 border-blue-500 p-1 tracking-wide cursor-pointer'>
         Strekial
       </Link>
-      <div 
-      className='flex items-center justify-center invisible md:visible md:w-96 bg-gray-700 p-2 rounded-2xl'>
-        <Search/>
-        <input type="text"
-        placeholder='Search..'
-        className='w-full outline-none bg-transparent text-xl px-2'
-        />
-      </div>
+      
       <div>
         {!session? <LoginBtn/> : <div>
           <PostBtn session={session}/>

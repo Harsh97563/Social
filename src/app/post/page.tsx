@@ -106,7 +106,7 @@ function Post() {
         </div>
         <div className={`relative text-white flex group flex-col min-h-[375px] items-center justify-center bg-gray-950 ${isPosting ? "bg-gray-800 cursor-not-allowed" : ""} rounded-3xl overflow-hidden mt-7 `}
         >
-            {files.length ? <div>
+            {files.length ? <div className='w-full'>
                 <ContentCarousel files={files}/>
                 <ImageIcon size={30} className='absolute invisible group-hover:visible cursor-pointer right-16 bg-black rounded-full p-1 text-white top-2'
                 onClick={() => fileRef.current?.click()}

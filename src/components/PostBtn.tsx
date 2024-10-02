@@ -13,7 +13,7 @@ function PostBtn({session}: {session: Session}) {
     const router = useRouter()
   return (
     <div className='flex items-center space-x-2'> 
-        <button className='border border-black p-2 w-28 rounded-md bg-gray-600'
+        <button className='border border-black p-2 w-28 text-sm rounded-md bg-gray-600'
         onClick={() => router.push('/post')}
         >
           New Post

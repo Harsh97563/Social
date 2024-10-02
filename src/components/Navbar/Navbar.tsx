@@ -19,6 +19,7 @@ async function Navbar() {
       className='cursor-pointer'>
         <LogoSvg/>
       </Link>
+      <div className='flex-grow md:hidden'></div>
       <SearchBtn/>
 
       <div>

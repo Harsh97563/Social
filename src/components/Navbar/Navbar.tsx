@@ -1,10 +1,11 @@
-import React from 'react'
-import LoginBtn from '../LoginBtn'
-import { Search } from 'lucide-react'
-import Link from 'next/link'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
-import PostBtn from '../PostBtn'
+import React from 'react';
+import LoginBtn from '../LoginBtn';
+import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import PostBtn from '../PostBtn';
+import SearchBtn from './SearchBtn';
+import LogoSvg from '@/lib/svgs/LogoSvg';
 
 async function Navbar() {
   
@@ -15,10 +16,11 @@ async function Navbar() {
 
       <Link 
       href={'/'} 
-      className=' text-xl font-extrabold bg-gradient-to-r from-cyan-200 to-indigo-500 bg-clip-text text-transparent border-2 border-blue-500 p-1 tracking-wide cursor-pointer'>
-        Strekial
+      className='cursor-pointer'>
+        <LogoSvg/>
       </Link>
-      
+      <SearchBtn/>
+
       <div>
         {!session? <LoginBtn/> : <div>
           <PostBtn session={session}/>

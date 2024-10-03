@@ -51,7 +51,7 @@ function SearchBtn() {
   return (
     <div className=' relative group transition-all w-9 md:w-96 mx-2 focus-within:w-[90%] md:focus-within:w-96 overflow-hidden focus-within:overflow-visible focus-within:absolute md:focus-within:relative md:overflow-visible bg-gray-700 focus-within:bg-gray-800 rounded-xl md:rounded-3xl'>
       <div 
-      className='flex items-center justify-center w-96 bg-gray-700 focus-within:bg-gray-800 p-2 rounded-2xl'>
+      className='flex items-center justify-center w-36 md:w-96 bg-gray-700 focus-within:bg-gray-800 p-2 rounded-2xl'>
         <Search />
         <input type="text"
         placeholder='Search..'

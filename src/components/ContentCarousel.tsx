@@ -40,7 +40,7 @@ export function ContentCarousel({files}: {files: File[] | string[]}) {
                   <Image
                   src={file instanceof File ? URL.createObjectURL(file) : file}
                   alt={`Preview ${index + 1}`}
-                  className=" object-contain"
+                  className=" object-contain z-0"
                   fill
                   />
                   <Image

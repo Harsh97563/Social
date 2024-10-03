@@ -77,9 +77,9 @@ function SignIn() {
 
   return (
 
-    <div className='flex w-full h-screen text-white bg-gradient-to-tr from-[#0F2027] from-10% to-[#2C5364] to-90% items-center justify-center '>
+    <div className='flex w-full h-screen text-white px-2 bg-gradient-to-tr from-[#0F2027] from-10% to-[#2C5364] to-90% items-center justify-center '>
       <div className='flex space-y-3 flex-col bg-gray-800 p-10 rounded-3xl'>
-        <button className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl mb-5'
+        <button className='bg-gray-900 p-5 w-full rounded-lg text-xl mb-5'
         onClick={() => signIn('google', {
           callbackUrl: "/"
         })}
@@ -97,7 +97,7 @@ function SignIn() {
             {error}
           </div>
           <input 
-          className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70' 
+          className='bg-gray-900 p-5 w-full rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70' 
           type="text" 
           placeholder='Username'
           disabled={isLoading}
@@ -108,7 +108,7 @@ function SignIn() {
           }} 
           />
           <input 
-          className='bg-gray-900 p-5 w-[20vw] rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70'
+          className='bg-gray-900 p-5 w-full rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70'
           type="password" 
           disabled={isLoading}
           placeholder='Password'
@@ -119,7 +119,7 @@ function SignIn() {
           }} 
           />
           
-          <button className={`flex bg-gray-900 p-5 w-[20vw] justify-center rounded-lg text-xl disabled:cursor-not-allowed disabled:opacity-70`}
+          <button className={`flex bg-gray-900 p-5 w-full justify-center rounded-lg text-xl disabled:cursor-not-allowed disabled:opacity-70`}
           disabled = {isLoading}
           >{isLoading? 
           <Loader className=' animate-spin'/> :"Sign In"

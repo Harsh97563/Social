@@ -1,6 +1,6 @@
 'use client'
 import { Heart } from 'lucide-react'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios';
 import { useSession } from 'next-auth/react';

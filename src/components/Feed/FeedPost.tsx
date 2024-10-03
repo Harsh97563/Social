@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2 } from 'lucide-react'
+import { MessageCircle, Share2 } from 'lucide-react'
 import React from 'react'
 import { ContentCarousel } from '../ContentCarousel'
 import Image from 'next/image'
@@ -12,14 +12,15 @@ function FeedPost({postData}: {postData: PostType}) {
     <div className='flex flex-col mb-2'>
 
         <div className='flex items-center space-x-2 text-white bg-gray-950 rounded-3xl w-full p-2'>
-            <Image
-            loading='lazy'
-            src={postData.user.profilePicSrc}
-            alt='profile-pic'
-            width={35}
-            height={35}
-            className=' rounded-xl'
-            />
+            <div className='relative w-[35px] h-[35px]'>
+                <Image
+                loading='lazy'
+                src={postData.user.profilePicSrc}
+                alt='profile-pic'
+                fill
+                className='rounded-xl object-cover'
+                />
+            </div>
             <div>{postData.user.username}</div>
         </div>
         

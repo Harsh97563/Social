@@ -3,6 +3,7 @@ import React from 'react'
 import { ContentCarousel } from '../ContentCarousel'
 import Image from 'next/image'
 import { PostType } from '@/types/postType'
+import LikeBtn from './Btns/LikeBtn'
 
 
 function FeedPost({postData}: {postData: PostType}) {
@@ -37,7 +38,7 @@ function FeedPost({postData}: {postData: PostType}) {
         <div className='flex w-full justify-end bg-gray-950 rounded-b-3xl text-white p-2 space-x-2'>
             <Share2 size={30}/>
             <MessageCircle size={30}/>
-            <Heart size={30}/>
+            <LikeBtn postId={postData.postId} likes={postData.likesCount} likedBy={postData.LikedBy}/>
         </div>
 
     </div>

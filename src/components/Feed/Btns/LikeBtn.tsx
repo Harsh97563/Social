@@ -1,20 +1,71 @@
-import React from 'react'
+'use client'
+import { Heart } from 'lucide-react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useToast } from '@/hooks/use-toast';
 
-function LikeBtn() {
+interface LikeBtn {
+  postId: string,
+  likes: number,
+  likedBy: [] | undefined,
+}
+
+function LikeBtn({postId, likes, likedBy}: LikeBtn) {
+  
+  const session = useSession();
+  const [liked, setLiked] = useState(() => likedBy?.length ? true : false);
+  const [likesCount, setlikesCount] = useState(likes);
+  const { toast } = useToast()
+
+  const handleLike = useCallback(async () => {
+
+    if(!session || !session.data) {
+      toast({
+        description: "Login to like the post.",
+        className: "bg-gray-950 text-white border-red-500",
+        duration: 1000
+      })
+      return
+    }
+
+    setLiked(!liked);
+    setlikesCount((prev) => !liked ? prev +1 : prev -1)
+
+    try {
+        
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post/likes`, {
+        postId,
+        type: !liked ? "LIKE" : "UNLIKE"
+      })
+
+    } catch (error: any) {
+      setLiked(!liked)
+      setlikesCount((prev) => liked ? prev +1 : prev -1)
+      console.error("Error while liking/unliking post.", error);
+    }
+
+
+  }, [liked, session])
+
+  
+
   return (
-    <div>
-        <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="LikeBtn" clip-path="url(#clip0_1_2)">
-            <path id="White" d="M9.21667 1L15.0167 10.6667L21.7833 1L30 10.6667L15.0167 30L1 10.6667L9.21667 1Z" fill="white" stroke="white"/>
-            <path id="Red" d="M9.21667 1L15.0167 10.6667L21.7833 1L30 10.6667L15.0167 30L1 10.6667L9.21667 1Z" fill="#AF0F0F" stroke="#AF0F0F"/>
-            </g>
-            <defs>
-            <clipPath id="clip0_1_2">
-            <rect width="31" height="31" fill="white"/>
-            </clipPath>
-            </defs>
-        </svg>
-    </div>
+    <motion.div className='flex text-center items-center justify-center text-xl space-x-1'
+    animate= {{
+      scale: liked ? [1, 1.2, 1] : 1,
+      rotate: liked ? [0, 15, -15, 0]: 0,
+      y: liked ? [0, -15, 0]: 0,
+      transition: {
+        duration: 0.5
+      }
+    }}
+    onClick={handleLike}
+    >
+    <div>{likesCount == 0 ? "": likesCount}</div>
+    <Heart size={30} className={` transition-colors ${liked ? "text-red-500 fill-current" : ""}`}/> 
+    </motion.div>
   )
 }
 

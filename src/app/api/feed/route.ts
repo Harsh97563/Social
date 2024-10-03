@@ -1,10 +1,14 @@
 export const dynamic = 'force-dynamic';
 
 import prisma from "@/utils/prismaSingleton";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/authOptions";
 
 
 export async function GET(req: NextRequest) {
+
+    const session = await getServerSession(authOptions);
 
     try {
 
@@ -27,12 +31,20 @@ export async function GET(req: NextRequest) {
                         profilePicSrc: true,
                         username: true,
                     }
+                },
+                ...(session ? {
+                    LikedBy: {
+                    where: {
+                        userId: session?.user.userId
+                    },
                 }
+                } : {})
+                
             },
             take: pageparam*itemPerPage,
             skip: (pageparam-1)*itemPerPage,
     
-        })
+        }) 
         
         const totalPost = await prisma.post.count();
         const haveNextPage = pageparam*itemPerPage < totalPost;

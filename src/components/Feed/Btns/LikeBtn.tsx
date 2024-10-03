@@ -47,7 +47,7 @@ function LikeBtn({postId, likes, likedBy}: LikeBtn) {
     }
 
 
-  }, [liked, session])
+  }, [liked, session, postId, toast])
 
   
 

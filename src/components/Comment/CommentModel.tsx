@@ -53,7 +53,7 @@ function CommentModel({showComments, setShowComments, postId}: Comments) {
 
         getComments()
 
-    }, [showComments])
+    }, [showComments, postId, toast])
     
 
     
@@ -82,8 +82,8 @@ function CommentModel({showComments, setShowComments, postId}: Comments) {
             <div className='flex h-full w-full overflow-y-scroll justify-center'>
                 {isLoading ? <Loader2 className='animate-spin'/> : 
                     comments.length == 0 ? <div className='text-xl text-white'>No Comments.</div> : <div className='w-full space-y-2 m-2'>
-                        {comments.map((comment) => (
-                            <Comment data={comment} />
+                        {comments.map((comment, id) => (
+                            <Comment key={id} data={comment} />
                         ))}
                     </div>
                 }

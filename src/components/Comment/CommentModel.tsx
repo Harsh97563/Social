@@ -79,7 +79,7 @@ function CommentModel({showComments, setShowComments, postId}: Comments) {
                 </motion.button>
             </div>
 
-            <div className='flex h-full w-full overflow-y-scroll justify-center'>
+            <div className='flex h-full w-full overflow-y-scroll justify-center pt-2'>
                 {isLoading ? <Loader2 className='animate-spin'/> : 
                     comments.length == 0 ? <div className='text-xl text-white'>No Comments.</div> : <div className='w-full space-y-2 m-2'>
                         {comments.map((comment, id) => (

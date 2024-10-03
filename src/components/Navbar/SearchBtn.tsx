@@ -79,14 +79,15 @@ function SearchBtn() {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 whileHover={{scale: 1.04, border: "1px solid black"}}
                 >
-                  <Image
-                  loading='lazy'
-                  src={element.profilePicSrc}
-                  alt='profile-pic'
-                  width={35}
-                  height={35}
-                  className=' rounded-xl'
-                  />
+                  <div className='relative w-[35px] h-[35px]'>
+                    <Image
+                    loading='lazy'
+                    src={element.profilePicSrc}
+                    alt='profile-pic'
+                    fill
+                    className=' rounded-xl object-cover'
+                    />
+                  </div>
                   <div>{element.username}</div>
                 </motion.div>
               ))}

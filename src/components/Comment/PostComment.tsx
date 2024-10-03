@@ -72,6 +72,7 @@ function PostComment({postId}: {postId: string}) {
     <div className='flex bg-gray-700 p-2 px-4 pb-4 rounded-t-2xl w-full'>
 
         <input type="text" className='bg-transparent w-full p-1 disabled:cursor-not-allowed text-white text-xl outline-none'
+        placeholder='Add a comment...'
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         disabled={isPosting}

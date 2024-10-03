@@ -34,10 +34,11 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
     const { update } = useSession();
 
     async function handleUpdate({type, e}: {type: null | updateType, e: any | null}) {
-        if(!username) {
-            throw new Error("Username can't be empty.")
-        }
         try {
+            if(!username) {
+                throw new Error("Username can't be empty.")
+            }
+
             setIsUploading(true);
             
             if(username !== profileData.username) {
@@ -133,6 +134,7 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                     <p className='text-xl'>Username</p>
                     <input type="text"
                     className='w-full bg-gray-500 p-2 rounded-lg outline-none'
+                    placeholder='Enter a username to continue.'
                     value={username || ""}
                     onChange={(e) => setUsername(e.target.value)}
                     disabled={isUploading}

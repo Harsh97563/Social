@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum StreakTypes {
+  DAYS10
+  DAYS30
+  DAYS60
+  DAYS100
+}
 
 model User {
   userId           String   @id @default(cuid())
@@ -17,6 +23,7 @@ model User {
   password         String?
   isVerified       Boolean  @default(false)
   verificationCode Int?
+  activeSteakId String?
   posts  Post[] 
   LikedPosts Like[]
   comments Comment[]
@@ -32,9 +39,23 @@ model Post {
   LikedBy Like[]
   likesCount Int @default(0)
   comments Comment[]
+  streakId String?
+  streak Streak? @relation(fields: [streakId], references: [streakId])
+
   createdAt DateTime @default(now())
 }
 
+
+model Streak {
+  streakId String @id @default(cuid())
+  type StreakTypes
+  userId String
+  startDate DateTime @default(now())
+  endDate DateTime?
+  streakCount Int @default(0)
+  updatedAt DateTime @updatedAt
+  post Post[]
+}
 
 model Like {
   id String @id @default(uuid())
@@ -44,6 +65,7 @@ model Like {
   post Post @relation(fields: [postId], references: [postId])
   @@unique([postId, userId])
 }
+
 
 model Comment {
   id String @id @default(uuid())

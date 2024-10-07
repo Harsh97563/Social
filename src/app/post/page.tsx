@@ -7,6 +7,10 @@ import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
 import { Theme } from 'emoji-picker-react';
+import { motion } from 'framer-motion';
+import { StreakTypes } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+
 const Picker = dynamic(
   () => {
     return import('emoji-picker-react');
@@ -21,8 +25,10 @@ function Post() {
     const [files, setFiles] = useState<File[]>([]);
     const [isPosting, setIsPosting] = useState(false);
     const [emojiOpen, setEmojiOpen] = useState(false);
+    const [selectedDays, setSelectedDays] = useState<number | null>(null);
     const {toast} = useToast();
-    const router = useRouter()
+    const router = useRouter();
+    const { update } = useSession();
 
     function handleFileChnage(e: ChangeEvent<HTMLInputElement>) {
 
@@ -46,9 +52,14 @@ function Post() {
 
         try {
             setIsPosting(true)
-            const response = await postData({files, caption});
 
-            if(!response?.success) throw new Error();
+            const streakType = selectedDays == 10 ? StreakTypes.DAYS10 : selectedDays == 30 ? StreakTypes.DAYS30 : selectedDays == 60 ? StreakTypes.DAYS60 : selectedDays == 100 ? StreakTypes.DAYS100 : null
+
+            const response = await postData({files, caption, streakType});
+
+            if(response.streakId) {
+                await update({streakId: response.streakId})
+            }
 
             toast({
                 description: "Posted Successfully.",
@@ -58,7 +69,8 @@ function Post() {
             router.push('/')
             
         } catch (error) {
-
+            console.log(error);
+            
             toast({
                 description: "Unexpected error occured.",
                 className: "bg-gray-950 text-white border-red-500",
@@ -75,6 +87,7 @@ function Post() {
   return (
 
     <div className='md:w-[720px] mx-2 md:mx-auto mt-5 flex flex-col bg-gray-700 rounded-3xl p-5 '>
+
         <textarea
         value ={caption}
         placeholder='Give it a cool caption!'
@@ -123,7 +136,7 @@ function Post() {
                         <FileUp size={30}/>
                     </div>
                     <div>
-                        Click here to add a Image/Video. 
+                        Click here to add a Image. 
                     </div>
                 </div>
             }
@@ -133,12 +146,52 @@ function Post() {
         ref={fileRef} 
         type="file"
         multiple={true}
+        accept='.png, .jpeg, .jpg'
         className='invisible'
         onChange={(e) => handleFileChnage(e)}
         disabled={isPosting}
         />
+        <div className='w-full bg-gray-950 text-white p-2 rounded-xl'>
+            <div className='text-xl'>Select days for your streak.</div>
+            <div className='flex space-x-4 my-2'>
+
+                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                animate= {{
+                    scale: selectedDays === 10 ? 1.1 : 1,
+                    backgroundColor: selectedDays === 10 ? "#1f2937" : "",
+                    border: selectedDays === 10 ? "1px solid #fafafa" : ""
+                }}
+                onClick={() => setSelectedDays(selectedDays !== 10 ? 10 : null)}
+                >10 Days</motion.div>
+                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                animate= {{
+                    scale: selectedDays === 30 ? 1.1 : 1,
+                    backgroundColor: selectedDays === 30 ? "#1f2937" : "",
+                    border: selectedDays === 30 ? "1px solid #fafafa" : ""
+                }}
+                onClick={() => setSelectedDays(selectedDays !== 30 ? 30 : null)}
+                >30 Days</motion.div>
+                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                animate= {{
+                    scale: selectedDays === 60 ? 1.1 : 1,
+                    backgroundColor: selectedDays === 60 ? "#1f2937" : "",
+                    border: selectedDays === 60 ? "1px solid #fafafa" : ""
+                }}
+                onClick={() => setSelectedDays(selectedDays !== 60 ? 60 : null)}
+                >60 Days</motion.div>
+                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                animate= {{
+                    scale: selectedDays === 100 ? 1.1 : 1,
+                    backgroundColor: selectedDays === 100 ? "#1f2937" : "",
+                    border: selectedDays === 100 ? "1px solid #fafafa" : ""
+                }}
+                onClick={() => setSelectedDays(selectedDays !== 100 ? 100 : null)}
+                >100 Days</motion.div>
+
+            </div>
+        </div>
         <button
-        className='text-white flex justify-center bg-gray-950 disabled:bg-gray-800 disabled:cursor-not-allowed p-2 text-xl rounded-3xl'
+        className='text-white flex justify-center bg-gray-950 disabled:bg-gray-800 disabled:cursor-not-allowed p-2 text-xl rounded-3xl mt-4'
         onClick={handlePost}
         disabled={isPosting}
         >

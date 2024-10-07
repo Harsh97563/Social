@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import PostBtn from '../PostBtn';
 import SearchBtn from './SearchBtn';
-import LogoSvg from '@/lib/svgs/LogoSvg';
+import Logo from './Logo';
 
 async function Navbar() {
   
@@ -17,7 +17,7 @@ async function Navbar() {
       <Link 
       href={'/'} 
       className='cursor-pointer'>
-        <LogoSvg/>
+        <Logo/>
       </Link>
       <div className='flex-grow md:hidden'></div>
       <SearchBtn/>

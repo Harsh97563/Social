@@ -63,8 +63,8 @@ function LikeBtn({postId, likes, likedBy}: LikeBtn) {
     }}
     onClick={handleLike}
     >
-    <div>{likesCount == 0 ? "": likesCount}</div>
     <Heart size={30} className={` transition-colors ${liked ? "text-red-500 fill-current" : ""}`}/> 
+    <div>{likesCount == 0 ? "": likesCount}</div>
     </motion.div>
   )
 }

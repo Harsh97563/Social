@@ -38,7 +38,12 @@ export async function GET(req: NextRequest) {
                         userId: session?.user.userId
                     },
                 }
-                } : {})
+                } : {}),
+                streak: {
+                    select: {
+                        streakCount: true
+                    }
+                }
                 
             },
             take: pageparam*itemPerPage,

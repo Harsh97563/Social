@@ -10,5 +10,8 @@ export interface PostType {
     user: {
         profilePicSrc: string,
         username: string,
+    },
+    streak: {
+        streakCount: number
     } 
 }

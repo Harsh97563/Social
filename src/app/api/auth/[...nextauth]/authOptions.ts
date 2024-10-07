@@ -167,7 +167,14 @@ export const authOptions: NextAuthOptions = {
         async jwt({token,trigger, user, session}) {
 
             if(trigger === "update") {
-                token.username = session.username
+                
+                if(session.username) {
+                    token.username = session.username
+                }
+
+                if(session.streakId) {
+                    token.streakId = session.streakId
+                }
             }
             
             if(user && user.email) {
@@ -177,6 +184,7 @@ export const authOptions: NextAuthOptions = {
                 token.email = user.email;
                 token.isVerified = user.isVerified;
                 token.profilePicSrc = user.profilePicSrc;
+                token.streakId = user.streakId;
             }
             return token
         },
@@ -184,7 +192,13 @@ export const authOptions: NextAuthOptions = {
         async session({session, token, trigger, newSession}) {
 
             if(trigger === "update") {
-                session.user.username = newSession.username;
+
+                if(newSession.username) {
+                    session.user.username = newSession.username
+                }
+                if(newSession.streakId) {
+                    session.user.streakId = newSession.streakId
+                }
             }
 
             session.user.username = token.username;
@@ -192,6 +206,7 @@ export const authOptions: NextAuthOptions = {
             session.user.email = token.email;
             session.user.isVerified = token.isVerified;
             session.user.profilePicSrc = token.profilePicSrc;
+            session.user.streakId  = token.streakId;
 
             return session;
         }

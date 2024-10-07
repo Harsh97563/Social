@@ -1,9 +1,17 @@
+import { StreakTypes } from "@prisma/client";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
-export async function postData({files, caption}: {files: File[], caption: string | null}) {
+interface PostData {
+    files: File[],
+    caption: string | null
+    streakType: StreakTypes | null
+}
+
+export async function postData({files, caption, streakType}: PostData ) {
+
 
     try {
-
         const urls = await Promise.all(
             files.map(async(file) => {
                 const formData = new FormData();
@@ -28,13 +36,15 @@ export async function postData({files, caption}: {files: File[], caption: string
 
         const datatoSend = {
             files: urls,
-            caption
+            caption,
+            streakType
         }
         
-        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, datatoSend)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, datatoSend)
 
         return {
-            success: true
+            success: true,
+            streakId: response.data.streakId
         }
 
 

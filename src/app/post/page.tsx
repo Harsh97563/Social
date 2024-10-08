@@ -86,7 +86,7 @@ function Post() {
 
   return (
 
-    <div className='md:w-[720px] mx-2 md:mx-auto mt-5 flex flex-col bg-gray-700 rounded-3xl p-5 '>
+    <div className='md:w-[720px] mx-3 border-2 border-black md:mx-auto mt-5 flex flex-col bg-[#384B70] rounded-sm p-5 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] '>
 
         <textarea
         value ={caption}
@@ -117,7 +117,7 @@ function Post() {
                 />
             </div>
         </div>
-        <div className={`relative text-white flex group flex-col min-h-[375px] items-center justify-center bg-gray-950 ${isPosting ? "bg-gray-800 cursor-not-allowed" : ""} rounded-3xl overflow-hidden mt-7 `}
+        <div className={`relative text-white flex group flex-col min-h-[375px] items-center justify-center bg-gray-950 ${isPosting ? "bg-gray-800 cursor-not-allowed" : ""} rounded-sm overflow-hidden mt-7 `}
         >
             {files.length ? <div className='w-full'>
                 <ContentCarousel files={files}/>
@@ -151,39 +151,39 @@ function Post() {
         onChange={(e) => handleFileChnage(e)}
         disabled={isPosting}
         />
-        <div className='w-full bg-gray-950 text-white p-2 rounded-xl'>
+        <div className='w-full bg-backgroundThird border-2 border-black text-black p-2 rounded-sm'>
             <div className='text-xl'>Select days for your streak.</div>
-            <div className='flex space-x-4 my-2'>
+            <div className='flex space-x-4 my-2 text-sm md:text-xl'>
 
-                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 animate= {{
                     scale: selectedDays === 10 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 10 ? "#1f2937" : "",
-                    border: selectedDays === 10 ? "1px solid #fafafa" : ""
+                    backgroundColor: selectedDays === 10 ? "#257180" : "",
+                    border: selectedDays === 10 ? "2px solid #000000" : ""
                 }}
                 onClick={() => setSelectedDays(selectedDays !== 10 ? 10 : null)}
                 >10 Days</motion.div>
-                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 animate= {{
                     scale: selectedDays === 30 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 30 ? "#1f2937" : "",
-                    border: selectedDays === 30 ? "1px solid #fafafa" : ""
+                    backgroundColor: selectedDays === 30 ? "#257180" : "",
+                    border: selectedDays === 30 ? "2px solid #000000" : ""
                 }}
                 onClick={() => setSelectedDays(selectedDays !== 30 ? 30 : null)}
                 >30 Days</motion.div>
-                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 animate= {{
                     scale: selectedDays === 60 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 60 ? "#1f2937" : "",
-                    border: selectedDays === 60 ? "1px solid #fafafa" : ""
+                    backgroundColor: selectedDays === 60 ? "#257180" : "",
+                    border: selectedDays === 60 ? "2px solid #000000" : ""
                 }}
                 onClick={() => setSelectedDays(selectedDays !== 60 ? 60 : null)}
                 >60 Days</motion.div>
-                <motion.div className='bg-gray-700 p-2 rounded-xl'
+                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 animate= {{
                     scale: selectedDays === 100 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 100 ? "#1f2937" : "",
-                    border: selectedDays === 100 ? "1px solid #fafafa" : ""
+                    backgroundColor: selectedDays === 100 ? "#257180" : "",
+                    border: selectedDays === 100 ? "2px solid #000000" : ""
                 }}
                 onClick={() => setSelectedDays(selectedDays !== 100 ? 100 : null)}
                 >100 Days</motion.div>
@@ -191,7 +191,7 @@ function Post() {
             </div>
         </div>
         <button
-        className='text-white flex justify-center bg-gray-950 disabled:bg-gray-800 disabled:cursor-not-allowed p-2 text-xl rounded-3xl mt-4'
+        className='flex justify-center bg-backgroundSecond disabled:opacity-70 disabled:cursor-not-allowed p-2 text-xl rounded-sm mt-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
         onClick={handlePost}
         disabled={isPosting}
         >

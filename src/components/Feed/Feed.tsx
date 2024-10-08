@@ -54,7 +54,7 @@ function Feed() {
     }, [inView, hasNextPage, fetchNextPage])
     
   return (
-    <div className='flex flex-col w-[720px] min-h-screen md:p-5 md:border-x text-white'>
+    <div className='flex flex-col w-[720px] min-h-screen px-2 md:p-5 border-black md:border-x-2 text-white'>
         {!data ? <FeedLoading/>: 
         data?.pages.map((page, i) => (
             <div key={i}>

@@ -49,8 +49,17 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
-  		},
+  			},
+			backgroundFirst: "#36BA98",
+			backgroundSecond: "#E9C46A",
+			backgroundThird: "#0B8494"
+
+			
+		},
+		boxShadow: {
+			"4xl": "4px_4px_0px_0px_rgba(0,0,0,1)"
+		},
+
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

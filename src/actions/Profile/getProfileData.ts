@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 
 
 export async function getProfileData() {
+    let streakData = null;
     try {
         
         const session = await getServerSession(authOptions);
@@ -11,7 +12,7 @@ export async function getProfileData() {
         if(!session) {
             return
         }
-        const data = await prisma.user.findUnique({
+        const userData = await prisma.user.findUnique({
             where: {
                 userId: session.user.userId
             },
@@ -20,9 +21,23 @@ export async function getProfileData() {
                 email: true,
                 profilePicSrc: true,
                 isVerified: true,
+                activeSteakId: true
             }
         })
-        return data
+        if(session.user.streakId) {
+
+            streakData = await prisma.streak.findUnique({
+                where: {
+                    streakId: session.user.streakId
+                }, 
+                select: {
+                    streakCount: true,
+                    type: true
+                }
+            })
+
+        }
+        return {userData, streakData}
 
     } catch (error) {
         console.error("Error in fetching profile data.", error);

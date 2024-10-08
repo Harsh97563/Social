@@ -61,7 +61,7 @@ function CommentModel({showComments, setShowComments, postId}: Comments) {
 
     <div className={`${showComments ? "fixed" : "hidden"} flex z-40 items-end justify-center top-0 -left-2 w-full h-full bg-gray-700 bg-opacity-60`}>
 
-        <motion.div className='w-[720px] flex flex-col rounded-t-3xl h-[60%] relative bottom-0 bg-gray-900'
+        <motion.div className='w-[720px] flex flex-col rounded-t-sm h-[60%] relative bottom-0 bg-backgroundFirst border-2 border-black'
         animate= {{
             y: showComments ? [200, 0] : 0,
             transition: {
@@ -69,7 +69,7 @@ function CommentModel({showComments, setShowComments, postId}: Comments) {
             }
         }}
         >
-            <div className='flex justify-between border-b p-4 '>
+            <div className='flex justify-between border-b-2 border-black p-4 '>
                 <div className='text-xl'>Comments</div>
                 <motion.button
                 onClick={() => setShowComments(false)}
@@ -81,7 +81,7 @@ function CommentModel({showComments, setShowComments, postId}: Comments) {
 
             <div className='flex h-full w-full overflow-y-scroll justify-center pt-2'>
                 {isLoading ? <Loader2 className='animate-spin'/> : 
-                    comments.length == 0 ? <div className='text-xl text-white'>No Comments.</div> : <div className='w-full space-y-2 m-2'>
+                    comments.length == 0 ? <div className='text-xl'>No Comments.</div> : <div className='w-full space-y-2 m-2'>
                         {comments.map((comment, id) => (
                             <Comment key={id} data={comment} />
                         ))}

@@ -53,7 +53,7 @@ export function ContentCarousel({files}: {files: File[] | string[]}) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="absolute right-5 bottom-1 p-0.5 rounded-lg px-2 text-center text-sm bg-gray-900 ">
+        <div className="absolute right-5 bottom-1 p-0.5 rounded-lg px-2 text-center text-sm bg-gray-900 text-white ">
           {current}/{count}
         </div>
         <CarouselPrevious className="absolute invisible md:visible"/>

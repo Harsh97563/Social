@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
                 userId: session.user.userId,
                 caption: body.caption,
                 files: body.files,
-                streakId: postStreakId
+                streakId: postStreakId || session.user.streakId
             }
         })
         

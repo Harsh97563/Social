@@ -1,8 +1,14 @@
 
 
 export interface ProfileType {
-    username: string | null,
-    email: string,
-    profilePicSrc: string | null,
-    isVerified: boolean,
+    userData: {
+        username: string | null,
+        email: string,
+        profilePicSrc: string | null,
+        isVerified: boolean,
+    },
+    streakData: {
+        streakCount: number | null,
+        type: string
+    }
 }

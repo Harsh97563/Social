@@ -12,6 +12,7 @@ function Provider({children}: {children: ReactNode}) {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
           <NextTopLoader
+          color='#E9C46A'
           showSpinner={false}
           />
           {children}

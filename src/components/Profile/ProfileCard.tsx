@@ -9,35 +9,68 @@ import EditingModel from './EditingModel';
 function ProfileCard({profileData}: {profileData: ProfileType}) {  
     
   const [editFields, setEditFields] = useState(()=> {
-    if(!profileData.username) return true
+    if(!profileData.userData.username) return true
     else false
   });
-  const [profilePicUrl, setProfilePicUrl] = useState(profileData.profilePicSrc);
-  const [username, setUsername] = useState(profileData.username);
-  const [email, setEmail] = useState(profileData.email);
+  const [profilePicUrl, setProfilePicUrl] = useState(profileData.userData.profilePicSrc);
+  const [username, setUsername] = useState(profileData.userData.username);
+  const [email, setEmail] = useState(profileData.userData.email);
 
   return (
-    <div className='relative w-full flex mx-auto flex-col bg-gray-950 rounded-2xl px-12 py-4'>
+    <div className='relative w-full flex md:mx-auto flex-col bg-[#384B70] rounded-sm px-2 md:px-12 py-4 border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'>
 
       <div
-      className='flex space-x-2 items-center cursor-pointer text-white bg-gray-500 rounded-2xl p-2 absolute right-3'
+      className='flex space-x-2 items-center cursor-pointer px-4 bg-backgroundSecond rounded-sm border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-2 absolute right-3'
       onClick={() => setEditFields(!editFields)}
       > 
         <p>Edit</p>
         <UserPen size={20} />
       </div>
 
-      <div className='w-full flex flex-col space-y-2 justify-center items-center'>
-
-        <div className=''>
-          <Image src={profilePicUrl || ""}
-          loading='lazy' 
-          alt='profile-pic' 
-          width={200} 
-          height={200} 
-          className='rounded-3xl border-2 w-[200px] h-[200px] overflow-hidden border-[#00A8CC]'/>
+      <div className='w-full flex space-x-3 text-center'>
+        <div>
+          <div className='relative rounded-sm border-2 border-black w-[100px] md:w-[200px] h-[100px] md:h-[200px] overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
+            <Image src={profilePicUrl || ""}
+            loading='lazy' 
+            alt='profile-pic' 
+            fill
+            className=' object-cover'/>
+          </div>
+          <h2 className='text-white text-2xl'>{profileData.userData.username}</h2>
         </div>
-        <h2 className='text-white text-2xl'>{profileData.username}</h2>
+        <div className='flex flex-col md:mb-8 w-full text-black p-2'>
+          <div className='flex-grow'></div>
+          <div className='flex md:h-[40%] h-[60%] w-full border-2 border-black bg-backgroundSecond p-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
+            <div className='flex w-[50%] border-r-2 border-black pl-1'>
+              <div>
+                <div className='md:text-xl'>Streak</div>
+                <div className='relative w-8 h-8'>
+                  <Image
+                  src={"/Streak.gif"}
+                  alt='streak'
+                  fill
+                  className='object-cover'
+                  />
+                </div>
+              </div>
+              <div className='flex w-full justify-center items-center text-xl md:text-2xl'>{profileData?.streakData?.streakCount ? `${profileData.streakData.streakCount} Days`  : "No active streak."}</div>
+            </div>
+            <div className='flex w-[50%] pl-1'>
+              <div>
+                <div className='md:text-xl'>Badges</div>
+                <div className='relative w-7 h-8 ml-1'>
+                  <Image
+                  src={"/Badge.gif"}
+                  alt='streak'
+                  fill
+                  className='object-cover'
+                  />
+                </div>
+              </div>
+              <div className='flex w-full justify-center items-center text-sm md:text-xl'>Coming soon!</div>
+            </div>
+          </div>
+        </div>
 
       </div>
 

@@ -69,9 +69,9 @@ function PostComment({postId}: {postId: string}) {
     }
 
   return (
-    <div className='flex bg-gray-700 p-2 px-4 pb-4 rounded-t-2xl w-full'>
+    <div className='flex bg-backgroundSecond p-2 px-4 pb-4 rounded-t-sm border-2 border-black w-full'>
 
-        <input type="text" className='bg-transparent w-full p-1 disabled:cursor-not-allowed text-white text-xl outline-none'
+        <input type="text" className='bg-transparent w-full p-1 disabled:cursor-not-allowed text-xl disabled:opacity-40 outline-none placeholder:text-black placeholder:opacity-40'
         placeholder='Add a comment...'
         value={comment}
         onChange={(e) => setComment(e.target.value)}

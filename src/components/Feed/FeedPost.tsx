@@ -7,20 +7,19 @@ import CommentBtn from './Btns/CommentBtn'
 
 
 function FeedPost({postData}: {postData: PostType}) {
-    console.log(postData);
     
   return (
-    <div className='flex flex-col mb-2'>
+    <div className='flex flex-col mb-6 text-black'>
 
-        <div className='flex items-center justify-between text-white bg-gray-950 rounded-3xl w-full p-2'>
+        <div className='flex items-center text-xl justify-between bg-backgroundFirst border-2 border-black rounded-sm w-full p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
             <div className='flex items-center space-x-2'>
-                <div className='relative w-[35px] h-[35px]'>
+                <div className='relative w-[35px] h-[35px] rounded-sm border border-black overflow-hidden'>
                     <Image
                     loading='lazy'
                     src={postData.user.profilePicSrc}
                     alt='profile-pic'
                     fill
-                    className='rounded-xl object-cover'
+                    className='object-cover'
                     />
                 </div>
                 <div>{postData.user.username}</div>
@@ -41,18 +40,18 @@ function FeedPost({postData}: {postData: PostType}) {
         </div>
         
         {postData.files.length ?
-        <div className={`bg-gray-950 rounded-t-3xl overflow-hidden mt-2`}> 
+        <div className={`bg-gray-950 rounded-t-sm border-t-2 border-x-2 border-black overflow-hidden mt-2`}> 
             <ContentCarousel files={postData.files}/>
         </div>
             : ""
         }
 
         {postData.caption? 
-        <div className={`w-full bg-gray-950 pl-4 whitespace-pre-line text-white p-2 ${!postData.files.length ? "rounded-t-3xl mt-2" : ""} `}>
+        <div className={`w-full bg-backgroundSecond border-black border-x-2 pl-4 whitespace-pre-line p-2 ${!postData.files.length ? "rounded-t-sm mt-2 border-t-2" : ""} `}>
             {postData.caption}
         </div> : ""}
         
-        <div className={`flex w-full justify-end bg-gray-950 rounded-b-3xl text-white p-2 space-x-2`}>
+        <div className={`flex w-full justify-end bg-backgroundSecond rounded-b-sm p-2 border-x-2 border-b-2 border-black space-x-2`}>
             <CommentBtn postid={postData.postId} />
             <LikeBtn postId={postData.postId} likes={postData.likesCount} likedBy={postData.LikedBy}/>
         </div>

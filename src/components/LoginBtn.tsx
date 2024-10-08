@@ -6,7 +6,7 @@ function LoginBtn() {
 
   return (
     <>
-      <button className='bg-gray-600 p-2 rounded-xl'
+      <button className='bg-backgroundSecond p-2 px-4 rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-lg border-2 border-black'
       onClick={() => signIn()}
       >
         Login

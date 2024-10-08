@@ -12,10 +12,11 @@ async function Profile() {
       Error in fetching.
     </div>
   }
-  
+
   return (
     <div className='md:w-[720px] mx-auto h-screen mt-3 p-2'>
         <ProfileCard 
+        // @ts-expect-error Fix the type
         profileData={profileData}
         />  
     </div>

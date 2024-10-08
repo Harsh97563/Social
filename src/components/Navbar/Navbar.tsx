@@ -36,6 +36,7 @@ async function Navbar() {
           delay: 0.5
         }
       }}
+      
       >
         {!session? <LoginBtn/> : <div>
           <PostBtn session={session}/>

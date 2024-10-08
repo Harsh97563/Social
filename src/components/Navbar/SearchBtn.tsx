@@ -50,7 +50,7 @@ function SearchBtn() {
 
 
   return (
-    <motion.div className=' focus-within:absolute md:focus-within:relative md:relative group w-[96vw] md:max-w-96 bg-backgroundSecond rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-black '
+    <motion.div className=' focus-within:absolute md:focus-within:relative md:relative group w-[96vw] md:max-w-96 bg-backgroundSecond rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-black z-[50] '
     animate = {{y: [-60, 0],
       transition: {
         duration: 1,
@@ -59,7 +59,7 @@ function SearchBtn() {
     }}
     >
       <div 
-      className='flex items-center space-x-2 justify-between w-full md:w-96 rounded-sm p-2'
+      className='flex items-center space-x-2 justify-between w-full md:w-96 rounded-sm p-2 z-[999]'
       onClick={(e) => {
         console.log(e);
         
@@ -76,7 +76,7 @@ function SearchBtn() {
         onChange={(e) => setSearchUsername(e.target.value)}
         />
       </div>
-      <div className={`absolute -z-10 invisible group-focus-within:visible bg-[#96CEB4] w-full top-0 left-0 ${isLoading || users.length > 0 || searchUsername ? "pt-14" : ""} rounded-sm p-2`}>
+      <div className={`absolute -z-10 invisible group-focus-within:visible bg-[#96CEB4] w-full top-0 left-0 ${isLoading || users.length > 0 || searchUsername ? "pt-14" : "hidden"} rounded-sm p-2`}>
 
         {isLoading ? <Loader size={30} className=' animate-spin w-full mx-auto'/> :
           users.length > 0 ? 

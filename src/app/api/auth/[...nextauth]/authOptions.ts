@@ -134,7 +134,7 @@ export const authOptions: NextAuthOptions = {
                             data: {
                                 email: profile.email,
                                 isVerified: true,
-                                profilePicSrc: "https://res.cloudinary.com/dc8yqhawq/image/upload/v1726839243/sokwk28elnyvhtwxm4hq.jpg"
+                                profilePicSrc: "https://res.cloudinary.com/dc8yqhawq/image/upload/v1728393088/pfp_qkukpx.png"
                             },
                             select: {
                                 username: true,

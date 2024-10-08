@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Streakial",
-  description: "Streakial - Be consistant",
+  title: "Streakified",
+  description: "Streakified - Be consistant",
 };
 
 export default function RootLayout({

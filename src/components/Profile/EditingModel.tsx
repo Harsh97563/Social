@@ -12,7 +12,7 @@ interface EditingModelType  {
     isEditing: boolean, 
     setIsEditing: any
     username: string | null
-    email: string
+    email: string | undefined
     setUsername: any
     setEmail:any
     profilePicUrl: string | null,
@@ -53,7 +53,7 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                 
             }
 
-            if( email !== profileData.userData.email) {
+            if(email && email !== profileData.userData.email) {
                 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
                 const emailValidation = emailRegex.test(email);
                 if(!emailValidation) {
@@ -134,8 +134,13 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                 <div className='w-full'>
                     <p className='text-xl'>Username</p>
                     <input type="text"
-                    className='w-full bg-backgroundSecond p-2 text-black rounded-sm placeholder:text-black placeholder:opacity-40 outline-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' 
+                    className='w-full bg-backgroundSecond p-2 text-black rounded-sm placeholder:text-black lowercase placeholder:opacity-40 outline-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' 
                     placeholder='Enter a username to continue.'
+                    onKeyDown={(e) => {
+                        if(e.key === " ") {
+                            e.preventDefault()
+                        }
+                    }}
                     value={username || ""}
                     onChange={(e) => setUsername(e.target.value)}
                     disabled={isUploading}

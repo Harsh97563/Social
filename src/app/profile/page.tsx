@@ -3,13 +3,25 @@ import ProfileCard from '@/components/Profile/ProfileCard'
 import React from 'react'
 import { getProfileData } from '@/actions/Profile/getProfileData'
 
-async function Profile() {
+interface ProfileSearchParams {
+  searchParams: {
+    username? : string,
+  }
+}
 
-  const profileData = await getProfileData();
+async function Profile({searchParams}: ProfileSearchParams) {
 
+  const profileData = await getProfileData({username: searchParams?.username});
+  
   if(!profileData) {
     return <div>
       Error in fetching.
+    </div>
+  }
+
+  if(!profileData.userData) {
+    return <div className='flex w-screen h-screen items-center justify-center text-center text-3xl border'>
+      No user found.
     </div>
   }
 

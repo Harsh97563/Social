@@ -3,7 +3,7 @@
 export interface ProfileType {
     userData: {
         username: string | null,
-        email: string,
+        email: string | undefined,
         profilePicSrc: string | null,
         isVerified: boolean,
     },

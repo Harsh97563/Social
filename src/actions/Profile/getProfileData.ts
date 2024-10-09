@@ -2,8 +2,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/utils/prismaSingleton";
 import { getServerSession } from "next-auth";
 
+interface GetProfileData {
+    username: string | undefined
+}
 
-export async function getProfileData() {
+export async function getProfileData({username}: GetProfileData) {
+    
     let streakData = null;
     try {
         
@@ -14,16 +18,17 @@ export async function getProfileData() {
         }
         const userData = await prisma.user.findUnique({
             where: {
-                userId: session.user.userId
+                ...(username ? {username: username} : { userId: session.user.userId })  
             },
             select: {
                 username: true,
-                email: true,
+                ...(!username ? {email: true} : {}),
                 profilePicSrc: true,
                 isVerified: true,
                 activeSteakId: true
             }
         })
+
         if(session.user.streakId) {
 
             streakData = await prisma.streak.findUnique({
@@ -37,6 +42,7 @@ export async function getProfileData() {
             })
 
         }
+        
         return {userData, streakData}
 
     } catch (error) {

@@ -54,7 +54,6 @@ export async function GET(req: NextRequest) {
         const totalPost = await prisma.post.count();
         const haveNextPage = pageparam*itemPerPage < totalPost;
         const nextPage = haveNextPage ? pageparam + 1 : null;
-    
         return NextResponse.json({
             posts,
             nextPage

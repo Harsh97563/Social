@@ -102,6 +102,15 @@ export async function POST(req: NextRequest) {
                         endDate: calculateEndDate(body.streakType)
                     }
                 })
+
+                await prisma.user.update({
+                    where: {
+                        userId: session.user.userId
+                    },
+                    data: {
+                        activeSteakId: response.streakId
+                    }
+                })
     
                 if(response) {
                     postStreakId = response.streakId
@@ -138,4 +147,48 @@ export async function POST(req: NextRequest) {
         }, {status: 400})
     }
     
+}
+
+export async function GET(req: NextRequest) {
+    
+    try {
+        const url = new URL(req.url);
+        const username = url.searchParams.get("username");
+
+        const session = await getServerSession(authOptions);
+
+        const response = await prisma.user.findUnique({
+            where: {
+              ...(username ? { username } : { userId: session?.user.userId })
+            },
+            select: {
+              posts: {
+                select: {
+                  postId: true,
+                  caption: true,
+                  files: true,
+                  likesCount: true,
+                  user: {
+                    select: {
+                      username: true,
+                      profilePicSrc: true
+                    }
+                  }
+                }
+              }
+            }
+          });
+        
+        return NextResponse.json({
+            message: "User posts fetched successfully.",
+            posts: response
+        }, { status: 200 })
+
+    } catch (error) {
+        console.error("Error while fetching the user posts.", error);
+        return NextResponse.json({
+            msg: "Error while fetching posts."
+        }, { status: 400 })
+        
+    }
 }

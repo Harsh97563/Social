@@ -1,7 +1,6 @@
 
 
 export interface PostType {
-    userId: string,  
     postId: string 
     caption: string | null, 
     files: string[] | [],

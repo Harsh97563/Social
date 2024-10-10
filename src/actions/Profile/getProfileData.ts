@@ -29,11 +29,11 @@ export async function getProfileData({username}: GetProfileData) {
             }
         })
 
-        if(session.user.streakId) {
+        if(userData?.activeSteakId) {
 
             streakData = await prisma.streak.findUnique({
                 where: {
-                    streakId: session.user.streakId
+                    streakId: userData.activeSteakId
                 }, 
                 select: {
                     streakCount: true,

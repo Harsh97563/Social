@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import ProfileCard from '@/components/Profile/ProfileCard'
+import UserPosts from '@/components/Profile/UserPosts'
 import React from 'react'
 import { getProfileData } from '@/actions/Profile/getProfileData'
 
@@ -30,7 +31,9 @@ async function Profile({searchParams}: ProfileSearchParams) {
         <ProfileCard 
         // @ts-expect-error Fix the type
         profileData={profileData}
-        />  
+        />
+        <UserPosts username={searchParams.username} />
+          
     </div>
   )
 }

@@ -20,7 +20,7 @@ function UserPosts({username}: UserPosts) {
 
                 setIsLoading(true)
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/post?username=${username}`)
-                setUserPosts(response.data.posts.posts)
+                // setUserPosts(response.data.posts.posts)
     
             } catch (error) {
                 
@@ -44,7 +44,7 @@ function UserPosts({username}: UserPosts) {
 
         {isLoading ? <FeedLoading/> : UserPosts.length === 0 ? 
         <div className='flex w-full justify-center text-xl '>
-            User don't have any post.
+            {`User doesn&apos;t have any posts.`}
         </div> :
             UserPosts.map((post, i) => (
                 <FeedPost key={i} postData={post}/>

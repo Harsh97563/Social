@@ -15,6 +15,13 @@ enum StreakTypes {
   DAYS100
 }
 
+enum StreakStatus {
+  ONGOING
+  BROKEN
+  COMPLETED
+}
+
+
 model User {
   userId           String   @id @default(cuid())
   username         String?  @unique
@@ -24,6 +31,7 @@ model User {
   isVerified       Boolean  @default(false)
   verificationCode Int?
   activeSteakId String?
+  streaks Streak[]
   posts  Post[] 
   LikedPosts Like[]
   comments Comment[]
@@ -51,10 +59,12 @@ model Streak {
   type StreakTypes
   userId String
   startDate DateTime @default(now())
+  status StreakStatus
   endDate DateTime?
   streakCount Int @default(0)
   updatedAt DateTime @updatedAt
   post Post[]
+  user User @relation(fields: [userId], references: [userId])
 }
 
 model Like {

@@ -9,7 +9,6 @@ import dynamic from 'next/dynamic';
 import { Theme } from 'emoji-picker-react';
 import { motion } from 'framer-motion';
 import { StreakTypes } from '@prisma/client';
-import { useSession } from 'next-auth/react';
 
 const Picker = dynamic(
   () => {
@@ -28,7 +27,6 @@ function Post() {
     const [selectedDays, setSelectedDays] = useState<number | null>(null);
     const {toast} = useToast();
     const router = useRouter();
-    const { update } = useSession();
 
     function handleFileChnage(e: ChangeEvent<HTMLInputElement>) {
 
@@ -55,11 +53,7 @@ function Post() {
 
             const streakType = selectedDays == 10 ? StreakTypes.DAYS10 : selectedDays == 30 ? StreakTypes.DAYS30 : selectedDays == 60 ? StreakTypes.DAYS60 : selectedDays == 100 ? StreakTypes.DAYS100 : null
 
-            const response = await postData({files, caption, streakType});
-
-            if(response.streakId) {
-                await update({streakId: response.streakId})
-            }
+            await postData({files, caption, streakType});
 
             toast({
                 description: "Posted Successfully.",

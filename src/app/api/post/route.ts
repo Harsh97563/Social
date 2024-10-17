@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
 import prisma from "@/utils/prismaSingleton";
+import { StreakStatus } from "@prisma/client";
+import redis from "@/lib/redis";
 
 enum StreakTypes {
     DAYS10 = 'DAYS10',
@@ -52,12 +54,18 @@ export async function POST(req: NextRequest) {
         
         if(body.streakType) {
             let isStreakValid: true | false  = true;
+            let redisJson;
+            const redisResponse = await redis.get(session.user.userId);
+
+            if(redisResponse) {
+                redisJson = JSON.parse(redisResponse)
+            } else redisJson = null;
             
-            if(session.user.streakId) {
+            if(redisResponse && redisJson.streakId) {
 
                 const response = await prisma.streak.findUnique({
                     where: {
-                        streakId: session.user.streakId
+                        streakId: redisJson.streakId
                     }
                 })
     
@@ -70,14 +78,22 @@ export async function POST(req: NextRequest) {
     
                     if(startTime <= updatedAt.getTime() && updatedAt.getTime() <=endTime ) {
 
-                        await prisma.streak.update({
+                        const response = await prisma.streak.update({
                             where: {
-                                streakId: session.user.streakId
+                                streakId: redisJson.streakId
                             },
                             data: {
                                 streakCount: {increment: 1}
                             }
                         })
+
+                        await redis.set(session.user.userId, JSON.stringify({
+                            streakId: response.streakId,
+                            streakCount: response.streakCount,
+                            updatedAt: response.updatedAt
+                        }));
+
+                        postStreakId = response.streakId
 
                     } else {
                         const updatedAt = new Date(response.updatedAt);
@@ -99,9 +115,11 @@ export async function POST(req: NextRequest) {
                         userId: session.user.userId,
                         type: body.streakType,
                         streakCount: 1,
-                        endDate: calculateEndDate(body.streakType)
+                        endDate: calculateEndDate(body.streakType),
+                        status: StreakStatus.ONGOING
                     }
                 })
+
 
                 await prisma.user.update({
                     where: {
@@ -111,10 +129,15 @@ export async function POST(req: NextRequest) {
                         activeSteakId: response.streakId
                     }
                 })
-    
-                if(response) {
-                    postStreakId = response.streakId
-                }
+
+                await redis.set(session.user.userId, JSON.stringify({
+                    streakId: response.streakId,
+                    streakCount: response.streakCount,
+                    updatedAt: response.updatedAt,
+                    seen: false
+                }));
+
+                postStreakId = response.streakId;
 
             }
 
@@ -126,7 +149,7 @@ export async function POST(req: NextRequest) {
                 userId: session.user.userId,
                 caption: body.caption,
                 files: body.files,
-                streakId: postStreakId || session.user.streakId
+                streakId: postStreakId
             }
         })
         
@@ -134,13 +157,12 @@ export async function POST(req: NextRequest) {
 
             msg: "Post uploaded Successfully.",
             files: body.files,
-            streakId: postStreakId
 
         }, {status: 200})
 
     } catch (error) {
         
-        console.log("Error in posting in db.",error);
+        console.log("Error in posting in db.", error);
         return NextResponse.json({
             msg: "Unexpected error occurs.",
             error: error
@@ -148,6 +170,8 @@ export async function POST(req: NextRequest) {
     }
     
 }
+
+
 
 export async function GET(req: NextRequest) {
     

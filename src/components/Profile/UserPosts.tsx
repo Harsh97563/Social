@@ -44,7 +44,7 @@ function UserPosts({username}: UserPosts) {
 
         {isLoading ? <FeedLoading/> : UserPosts.length === 0 ? 
         <div className='flex w-full justify-center text-xl '>
-            {`User doesn&apos;t have any posts.`}
+            User doesn&apos;t have any posts.
         </div> :
             UserPosts.map((post, i) => (
                 <FeedPost key={i} postData={post}/>

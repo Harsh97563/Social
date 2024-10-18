@@ -90,7 +90,9 @@ export async function POST(req: NextRequest) {
                         await redis.set(session.user.userId, JSON.stringify({
                             streakId: response.streakId,
                             streakCount: response.streakCount,
-                            updatedAt: response.updatedAt
+                            updatedAt: response.updatedAt,
+                            type: response.type,
+                            seen: false
                         }));
 
                         postStreakId = response.streakId
@@ -134,6 +136,7 @@ export async function POST(req: NextRequest) {
                     streakId: response.streakId,
                     streakCount: response.streakCount,
                     updatedAt: response.updatedAt,
+                    type: response.type,
                     seen: false
                 }));
 

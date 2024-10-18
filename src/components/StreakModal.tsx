@@ -14,17 +14,16 @@ function StreakModal() {
             
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/streak`)
-                console.log(response);
 
                 setStreakData(response.data.streakData);
                 const startTime = new Date().setHours(0, 0, 0, 0);
                 const endTime = new Date().setHours(23, 59, 59, 999);
                 const updatedAt = new Date(response.data.streakData.updatedAt);
                 updatedAt.setDate(updatedAt.getDate() + 1);
-                console.log(startTime, endTime, updatedAt);
                 
                 if(startTime <= updatedAt.getTime() && updatedAt.getTime() <=endTime ) {
                     setIsOpen(false)
+                    
 
                 } else {
                     const updatedAt = new Date(response.data.streakData.updatedAt);

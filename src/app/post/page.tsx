@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
 import { Theme } from 'emoji-picker-react';
-import { motion } from 'framer-motion';
 import { StreakTypes } from '@prisma/client';
+import DaysOptionBtn from '@/components/DaysOptionBtn';
 
 const Picker = dynamic(
   () => {
@@ -17,14 +17,15 @@ const Picker = dynamic(
   { ssr: false }
 );
 
-function Post() {
 
+function Post() {
+    
     const fileRef = useRef<HTMLInputElement>();
     const [caption, setcaption] = useState<string>('');
     const [files, setFiles] = useState<File[]>([]);
     const [isPosting, setIsPosting] = useState(false);
     const [emojiOpen, setEmojiOpen] = useState(false);
-    const [selectedDays, setSelectedDays] = useState<number | null>(null);
+    const [selectedDays, setSelectedDays] = useState<StreakTypes | null>(null);
     const {toast} = useToast();
     const router = useRouter();
 
@@ -50,10 +51,7 @@ function Post() {
 
         try {
             setIsPosting(true)
-
-            const streakType = selectedDays == 10 ? StreakTypes.DAYS10 : selectedDays == 30 ? StreakTypes.DAYS30 : selectedDays == 60 ? StreakTypes.DAYS60 : selectedDays == 100 ? StreakTypes.DAYS100 : null
-
-            await postData({files, caption, streakType});
+            await postData({files, caption, streakType: selectedDays});
 
             toast({
                 description: "Posted Successfully.",
@@ -145,51 +143,26 @@ function Post() {
         onChange={(e) => handleFileChnage(e)}
         disabled={isPosting}
         />
+
         <div className='w-full bg-backgroundThird border-2 border-black text-black p-2 rounded-sm'>
             <div className='text-xl'>Select days for your streak.</div>
             <div className='flex space-x-4 my-2 text-sm md:text-xl'>
 
-                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                animate= {{
-                    scale: selectedDays === 10 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 10 ? "#257180" : "",
-                    border: selectedDays === 10 ? "2px solid #000000" : ""
-                }}
-                onClick={() => setSelectedDays(selectedDays !== 10 ? 10 : null)}
-                >10 Days</motion.div>
-                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                animate= {{
-                    scale: selectedDays === 30 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 30 ? "#257180" : "",
-                    border: selectedDays === 30 ? "2px solid #000000" : ""
-                }}
-                onClick={() => setSelectedDays(selectedDays !== 30 ? 30 : null)}
-                >30 Days</motion.div>
-                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                animate= {{
-                    scale: selectedDays === 60 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 60 ? "#257180" : "",
-                    border: selectedDays === 60 ? "2px solid #000000" : ""
-                }}
-                onClick={() => setSelectedDays(selectedDays !== 60 ? 60 : null)}
-                >60 Days</motion.div>
-                <motion.div className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                animate= {{
-                    scale: selectedDays === 100 ? 1.1 : 1,
-                    backgroundColor: selectedDays === 100 ? "#257180" : "",
-                    border: selectedDays === 100 ? "2px solid #000000" : ""
-                }}
-                onClick={() => setSelectedDays(selectedDays !== 100 ? 100 : null)}
-                >100 Days</motion.div>
+                <DaysOptionBtn days={StreakTypes.DAYS10} setSelectedDays={setSelectedDays} selectedDays={selectedDays}  />
+                <DaysOptionBtn days={StreakTypes.DAYS30} setSelectedDays={setSelectedDays} selectedDays={selectedDays}  />
+                <DaysOptionBtn days={StreakTypes.DAYS60} setSelectedDays={setSelectedDays} selectedDays={selectedDays}  />
+                <DaysOptionBtn days={StreakTypes.DAYS100} setSelectedDays={setSelectedDays} selectedDays={selectedDays}  />
 
             </div>
         </div>
+
         <button
-        className='flex justify-center bg-backgroundSecond disabled:opacity-70 disabled:cursor-not-allowed p-2 text-xl rounded-sm mt-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
+        className='flex justify-center border-2 border-black bg-backgroundSecond disabled:opacity-70 disabled:cursor-not-allowed p-2 text-xl rounded-sm mt-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
         onClick={handlePost}
         disabled={isPosting}
         >
             {isPosting ? <Loader2 size={32} className=' animate-spin'/> : "Post!"}
+
         </button>
     </div>
   )

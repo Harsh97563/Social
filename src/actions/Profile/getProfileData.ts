@@ -13,12 +13,9 @@ export async function getProfileData({username}: GetProfileData) {
         
         const session = await getServerSession(authOptions);
 
-        if(!session) {
-            return
-        }
         const userData = await prisma.user.findUnique({
             where: {
-                ...(username ? {username: username} : { userId: session.user.userId })  
+                ...(username ? {username: username} : { userId: session?.user.userId })  
             },
             select: {
                 username: true,

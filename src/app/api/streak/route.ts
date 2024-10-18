@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
 
 
-
 export async function GET() {
     
     try {
@@ -24,10 +23,22 @@ export async function GET() {
         }, { status: 200 })
 
         const redisJson = JSON.parse(redisResponse)
-        await redis.set(session.user.userId, JSON.stringify({
-            ...redisJson,
-            seen: true
-        }))
+        const startTime = new Date().setHours(0, 0, 0, 0);
+        const endTime = new Date().setHours(23, 59, 59, 999);
+        const updatedAt = new Date(redisJson.updatedAt);
+        const todayDate = new Date();
+        const sameDay = updatedAt.getDate() !== todayDate.getDate()
+        updatedAt.setDate(updatedAt.getDate() + 1);
+
+        if(!(startTime <= updatedAt.getTime() && updatedAt.getTime() <= endTime) && sameDay ) {
+
+            await redis.set(session.user.userId, JSON.stringify({
+                ...redisJson,
+                seen: true
+            }))
+            
+        }
+
 
         return NextResponse.json({
             message: "Streak data found.",

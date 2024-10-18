@@ -21,7 +21,7 @@ function PostBtn({session}: {session: Session}) {
         </motion.button>
         <Popover>
           <PopoverTrigger>
-            {session.user.profilePicSrc ? <div className='relative -z-10 w-[40px] h-[40px] rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
+            {session.user.profilePicSrc ? <div className='relative -z-10 w-[40px] h-[40px] rounded-sm border border-black overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
               <Image
               src={session.user.profilePicSrc}
               alt=''

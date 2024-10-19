@@ -9,9 +9,16 @@ export async function POST(req: NextRequest) {
     try {
 
         const session = await getServerSession(authOptions);
-        if(!session) {
+
+        if(!session || !session.user) {
             return NextResponse.json({
                 message: "Invalid Session."
+            }, { status: 404})
+        }
+
+        if(!session.user.isVerified) {
+            return NextResponse.json({
+                message: "Verify yourself first."
             }, { status: 404})
         }
 

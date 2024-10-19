@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import { Theme } from 'emoji-picker-react';
 import { StreakTypes } from '@prisma/client';
 import DaysOptionBtn from '@/components/DaysOptionBtn';
+import { useSession } from 'next-auth/react';
 
 const Picker = dynamic(
   () => {
@@ -28,6 +29,7 @@ function Post() {
     const [selectedDays, setSelectedDays] = useState<StreakTypes | null>(null);
     const {toast} = useToast();
     const router = useRouter();
+    const session = useSession();
 
     function handleFileChnage(e: ChangeEvent<HTMLInputElement>) {
 
@@ -43,6 +45,24 @@ function Post() {
         if(!caption && !files.length){
             toast({
                 description: "Either caption or file needed.",
+                className: "bg-gray-950 text-white border-red-500",
+                duration: 2000
+            })
+            return
+        }
+
+        if(!session.data?.user.userId) {
+            toast({
+                description: "Invalid Session.",
+                className: "bg-gray-950 text-white border-red-500",
+                duration: 2000
+            })
+            return
+        }
+
+        if(!session.data?.user.isVerified) {
+            toast({
+                description: "Verify yourself to post.",
                 className: "bg-gray-950 text-white border-red-500",
                 duration: 2000
             })

@@ -3,6 +3,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcrypt'; 
 import prisma from "@/utils/prismaSingleton";
+import { sendVerificationMail } from "./sendVerificationMail";
 
 
 
@@ -59,11 +60,14 @@ export const authOptions: NextAuthOptions = {
 
                     const hashedPassword = await bcrypt.hash(credentials.password, 10)
 
+                    const verificationCode = Math.floor(100000 + Math.random()*900000);
+
                     const user = await prisma.user.create({
                         data: {
                             email: credentials.email,
                             password: hashedPassword,
-                            profilePicSrc: "https://res.cloudinary.com/dc8yqhawq/image/upload/v1726839243/sokwk28elnyvhtwxm4hq.jpg"
+                            profilePicSrc: "https://res.cloudinary.com/dc8yqhawq/image/upload/v1726839243/sokwk28elnyvhtwxm4hq.jpg",
+                            verificationCode
                         },
                         select: {
                             email: true,
@@ -73,6 +77,8 @@ export const authOptions: NextAuthOptions = {
                         }
 
                     })
+
+                    await sendVerificationMail({email: credentials.email, verificationCode})
 
                     return {
 
@@ -172,8 +178,8 @@ export const authOptions: NextAuthOptions = {
                     token.username = session.username
                 }
 
-                if(session.streakId) {
-                    token.streakId = session.streakId
+                if(session.isVerified) {
+                    token.isVerified = session.isVerified
                 }
             }
             
@@ -196,8 +202,8 @@ export const authOptions: NextAuthOptions = {
                 if(newSession.username) {
                     session.user.username = newSession.username
                 }
-                if(newSession.streakId) {
-                    session.user.streakId = newSession.streakId
+                if(newSession.isVerified) {
+                    session.user.isVerified = newSession.isVerified
                 }
             }
 

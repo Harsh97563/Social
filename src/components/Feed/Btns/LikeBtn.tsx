@@ -30,6 +30,15 @@ function LikeBtn({postId, likes, likedBy}: LikeBtn) {
       return
     }
 
+    if(!session.data.user.isVerified) {
+      toast({
+        description: "Verify yourself first.",
+        className: "bg-gray-950 text-white border-red-500",
+        duration: 1000
+      })
+      return
+    }
+
     setLiked(!liked);
     setlikesCount((prev) => !liked ? prev +1 : prev -1)
 

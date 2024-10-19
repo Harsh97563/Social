@@ -23,6 +23,15 @@ function PostComment({postId}: {postId: string}) {
             return
         }
 
+        if(!session.data.user.isVerified) {
+            toast({
+                description: "Verify yourself first.",
+                className: "bg-gray-950 text-white border-red-500",
+                duration: 1000
+            })
+            return
+        }
+
         if(!comment) {
             toast({
                 description: "Comment cannot be empty.",

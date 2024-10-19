@@ -97,7 +97,7 @@ function SignIn() {
             {error}
           </div>
           <input 
-          className='bg-backgroundSecond shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 w-full rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70' 
+          className='bg-backgroundSecond shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 w-full rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70 placeholder:text-black placeholder:opacity-60' 
           type="text" 
           placeholder='Email'
           disabled={isLoading}
@@ -108,7 +108,7 @@ function SignIn() {
           }} 
           />
           <input 
-          className='bg-backgroundSecond shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 w-full rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70'
+          className='bg-backgroundSecond shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 w-full rounded-lg text-xl outline-none disabled:cursor-not-allowed disabled:opacity-70 placeholder:text-black placeholder:opacity-60'
           type="password" 
           disabled={isLoading}
           placeholder='Password'

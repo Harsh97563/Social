@@ -3,11 +3,12 @@ import axios from "axios";
 
 interface PostData {
     files: File[],
-    caption: string | null
-    streakType: StreakTypes | null
+    caption: string | null,
+    streakType: StreakTypes | null,
+    postOnTwitter: boolean
 }
 
-export async function postData({files, caption, streakType}: PostData ) {
+export async function postData({files, caption, streakType, postOnTwitter}: PostData ) {
 
 
     try {
@@ -36,7 +37,8 @@ export async function postData({files, caption, streakType}: PostData ) {
         const datatoSend = {
             files: urls,
             caption,
-            streakType
+            streakType,
+            postOnTwitter
         }
         
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, datatoSend)

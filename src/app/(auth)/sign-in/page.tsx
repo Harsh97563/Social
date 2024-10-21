@@ -80,7 +80,7 @@ function SignIn() {
     <div className='flex w-full h-screen text-black px-2 items-center justify-center '>
       <div className='flex space-y-3 min-w-[30vw] flex-col bg-[#384B70] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-10 rounded-sm'>
         <button className='bg-backgroundSecond shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 w-full rounded-sm text-xl mb-5'
-        onClick={() => signIn('google', {
+        onClick={() => signIn("google", {
           callbackUrl: "/"
         })}
         >Continue with Google</button>

@@ -4,6 +4,7 @@ import { authOptions } from "../auth/[...nextauth]/authOptions";
 import prisma from "@/utils/prismaSingleton";
 import { StreakStatus } from "@prisma/client";
 import redis from "@/lib/redis";
+import { TwitterApi } from "twitter-api-v2";
 
 enum StreakTypes {
     DAYS10 = 'DAYS10',
@@ -161,6 +162,33 @@ export async function POST(req: NextRequest) {
                 streakId: postStreakId
             }
         })
+
+        if(body.postOnTwitter) {
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    userId: session.user.userId
+                },
+                select: {
+                    twitterAccessToken: true,
+                    twitterAccessSecret: true
+                }
+            })
+            if(!user || !user.twitterAccessToken || !user.twitterAccessSecret) return NextResponse.json({
+                message: "No linked twitter account found."
+            })
+
+            if(body.caption) {
+                const client = new TwitterApi({
+                    appKey: `${process.env.NEXT_PUBLIC_TWITTER_API_KEY}`,
+                    appSecret: `${process.env.NEXT_PUBLIC_TWITTER_API_SECRET}`,
+                    accessToken: user.twitterAccessToken,
+                    accessSecret: user.twitterAccessSecret!
+                })
+                await client.v2.tweet(body.caption)
+            }
+            
+        }
         
         return NextResponse.json({
 

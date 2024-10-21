@@ -8,7 +8,7 @@ declare module "next-auth" {
         userId: string,
         isVerified: boolean,
         profilePicSrc: string | null,
-        streakId: string | null
+        streakId: string | null,
     }
 
     interface Session { 
@@ -31,6 +31,6 @@ declare module "next-auth/jwt" {
         email: string,
         isVerified: boolean,
         profilePicSrc: string | null,
-        streakId: string | null
+        streakId: string | null,
     }
 }

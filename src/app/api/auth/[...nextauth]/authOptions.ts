@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth";
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcrypt'; 
 import prisma from "@/utils/prismaSingleton";
@@ -101,14 +101,14 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.NEXT_GOOGLE_CLIENT_ID || "",
             clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET || "",
 
-        }),
+        })
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async signIn({account, profile, user}) {
-            
-            if(account?.provider === 'google') {
 
+            if(account?.provider === 'google') {
+                
                 if(!profile) return false;
 
                 try {
@@ -165,7 +165,6 @@ export const authOptions: NextAuthOptions = {
                     return false;
                 }
             }
-
             
             return true;
         },
@@ -184,7 +183,7 @@ export const authOptions: NextAuthOptions = {
             }
             
             if(user && user.email) {
-                    
+                
                 token.username = user.username;
                 token.userId = user.userId;
                 token.email = user.email;
@@ -206,7 +205,7 @@ export const authOptions: NextAuthOptions = {
                     session.user.isVerified = newSession.isVerified
                 }
             }
-
+            
             session.user.username = token.username;
             session.user.userId = token.userId;
             session.user.email = token.email;

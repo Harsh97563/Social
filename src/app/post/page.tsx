@@ -4,12 +4,14 @@ import { ContentCarousel } from '@/components/ContentCarousel';
 import { useToast } from '@/hooks/use-toast';
 import { FileUp, ImageIcon, Loader2, SmilePlus, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
 import { Theme } from 'emoji-picker-react';
 import { StreakTypes } from '@prisma/client';
 import DaysOptionBtn from '@/components/DaysOptionBtn';
 import { useSession } from 'next-auth/react';
+import ConnectToTwitterBtn from '@/components/ConnectToTwitter';
+import axios from 'axios';
 
 const Picker = dynamic(
   () => {
@@ -27,6 +29,9 @@ function Post() {
     const [isPosting, setIsPosting] = useState(false);
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [selectedDays, setSelectedDays] = useState<StreakTypes | null>(null);
+    const [isTwitterConnected, setIsTwitterConnected] = useState(false);
+    const [postOnTwitter, setPostOnTwitter] = useState(false);
+    const [checkingTwitterconnection, setCheckingTwitterconnection] = useState(false)
     const {toast} = useToast();
     const router = useRouter();
     const session = useSession();
@@ -71,7 +76,7 @@ function Post() {
 
         try {
             setIsPosting(true)
-            await postData({files, caption, streakType: selectedDays});
+            await postData({files, caption, streakType: selectedDays, postOnTwitter});
 
             toast({
                 description: "Posted Successfully.",
@@ -95,6 +100,28 @@ function Post() {
             setFiles([])
         }
     }
+
+    useEffect(() => {
+      
+        async function checkTwitterToken() {
+            
+            try {
+                setCheckingTwitterconnection(true)
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/connecttwitter`)
+
+                setIsTwitterConnected(response.data.hasAccess)
+
+            } catch (error) {
+                console.log(error);
+                
+            } finally {
+                setCheckingTwitterconnection(false)
+            }
+        }
+
+        checkTwitterToken()
+    }, [])
+    
 
   return (
 
@@ -165,7 +192,7 @@ function Post() {
         />
 
         <div className='w-full bg-backgroundThird border-2 border-black text-black p-2 rounded-sm'>
-            <div className='text-xl'>Select days for your streak.</div>
+            <div className='text-xl text-white'>Select days for your streak.</div>
             <div className='flex space-x-4 my-2 text-sm md:text-xl'>
 
                 <DaysOptionBtn days={StreakTypes.DAYS10} setSelectedDays={setSelectedDays} selectedDays={selectedDays}  />
@@ -175,9 +202,26 @@ function Post() {
 
             </div>
         </div>
+        <div className={`w-full bg-backgroundThird border-2 border-black text-black p-2 rounded-sm mt-2`}>
+            {checkingTwitterconnection ? <Loader2 className='mx-auto animate-spin'/> : isTwitterConnected ? <div className='flex flex-col space-y-2 w-full'>
+                <div className='text-white md:text-lg'>
+                    Enable/Disable Twitter Posting.
+                </div>
+                <button
+                onClick={() => setPostOnTwitter(!postOnTwitter)}
+                className='bg-backgroundFirst p-2 border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-pointer disabled:opacity-70 font-semibold'
+                disabled={isPosting}
+                >{postOnTwitter ? "Disable Twitter Sharing.": "Enable Twitter Sharing"}</button>
 
+            </div> : <div className='flex flex-col space-y-2 w-full'> 
+                <div className='text-white md:text-lg'>
+                    Connect your twitter to post on twitter simultaneously.
+                </div>
+                <ConnectToTwitterBtn/>
+            </div> }
+        </div>
         <button
-        className='flex justify-center border-2 border-black bg-backgroundSecond disabled:opacity-70 disabled:cursor-not-allowed p-2 text-xl rounded-sm mt-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
+        className='flex justify-center border-2 border-black bg-backgroundSecond disabled:opacity-70 disabled:cursor-not-allowed p-2 text-xl font-semibold rounded-sm mt-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
         onClick={handlePost}
         disabled={isPosting}
         >

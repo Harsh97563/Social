@@ -36,7 +36,8 @@
     "react-intersection-observer": "^9.13.1",
     "resend": "^4.0.0",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "twitter-api-v2": "^1.18.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

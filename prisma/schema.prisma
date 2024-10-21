@@ -36,6 +36,8 @@ model User {
   LikedPosts Like[]
   comments Comment[]
   createdAt DateTime @default(now())
+  twitterAccessToken String?
+  twitterAccessSecret String?
 }
 
 model Post {

@@ -49,7 +49,7 @@ export async function PUT(req: NextRequest) {
                 appSecret: process.env.NEXT_PUBLIC_TWITTER_API_SECRET!,
             })
 
-            const { oauth_token, oauth_token_secret} = await client.generateAuthLink(`${process.env.NEXT_PUBLIC_REDIRECT_URL}/post`)
+            const { oauth_token, oauth_token_secret} = await client.generateAuthLink(`https://streakified.vercel.app/post`)
 
             await redis.set(oauth_token, oauth_token_secret, 'EX', 100)
 

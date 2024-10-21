@@ -31,6 +31,8 @@ function ConnectToTwitterBtn() {
                 className: "bg-gray-950 text-white border-red-500",
                 duration: 2000
             })
+        } finally {
+            setIsConnecting(false)
         }
         
         

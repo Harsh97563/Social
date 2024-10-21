@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import redis from "@/lib/redis";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";

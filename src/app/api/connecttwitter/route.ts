@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
@@ -92,6 +93,10 @@ export async function GET() {
 
     } catch (error) {
         console.error("Error in checking twitter access.", error);
+
+        return NextResponse.json({
+            message: "Error in checking twitter access token."
+        }, { status: 400 })
         
     }
 }

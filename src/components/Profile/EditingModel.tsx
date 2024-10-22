@@ -5,7 +5,7 @@ import { ProfileType } from '@/types/profileType'
 import { Loader2, Pencil, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
-import React, { useRef, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 
 interface EditingModelType  {
     profileData: ProfileType, 
@@ -43,7 +43,7 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
             
             if(username !== profileData.userData.username) {
                 
-                const response = await updateProfileData({data: username, type: updateType.USERNAME })
+                const response = await updateProfileData({data: username.toLowerCase(), type: updateType.USERNAME })
 
                 if(!response.success) {
                     throw new Error(response.message)
@@ -136,6 +136,12 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                     <input type="text"
                     className='w-full bg-backgroundSecond p-2 text-black rounded-sm placeholder:text-black lowercase placeholder:opacity-40 outline-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' 
                     placeholder='Enter a username to continue.'
+                    onBeforeInput={(e: FormEvent<HTMLInputElement>) => {
+                        const inputEvent = e.nativeEvent as InputEvent;
+                        if(inputEvent.data === " ") {
+                            e.preventDefault()
+                        }
+                    }}
                     onKeyDown={(e) => {
                         if(e.key === " ") {
                             e.preventDefault()

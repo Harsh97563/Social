@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
                         userId: session.user.userId
                     },
                     data: {
-                        username: data.data
+                        username: data.data.toLowerCase()
                     }
                 })
                 

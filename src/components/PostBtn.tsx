@@ -1,5 +1,5 @@
 'use client'
-import { User } from 'lucide-react'
+import { ExternalLink, LogOut, User } from 'lucide-react'
 import { Session } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -34,15 +34,24 @@ function PostBtn({session}: {session: Session}) {
           </PopoverTrigger>
           <PopoverContent className='flex mr-4 mt-4 flex-col right-0 bg-backgroundFirst p-3 space-y-2 rounded-sm border-2 border-black'>
             <Link href={'/profile'}
-            className='p-2 px-4 rounded-sm bg-backgroundSecond shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black'>
-              My Profile
+            className='flex items-center justify-start p-2 space-x-1 rounded-sm bg-backgroundSecond shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black'>
+              <User/>
+              <div className='text-lg'>Profile</div>
+            </Link>
+            <Link href={'https://github.com/Harsh97563/Streakified'}
+            className='flex items-center justify-start space-x-1 p-2 rounded-sm bg-backgroundSecond shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black'>
+              <ExternalLink/>
+              <div className='text-lg'>Github</div>
             </Link>
             <button
-            className='p-2 px-4 rounded-sm bg-backgroundSecond shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black'
+            className='flex items-center justify-start space-x-1 p-2 rounded-sm bg-backgroundSecond shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black'
             onClick={() => signOut({
               callbackUrl: "/"
             })}
-            >Logout</button>
+            >
+              <LogOut/>
+              <div className='text-lg'>Logout</div>
+            </button>
           </PopoverContent>
 
         </Popover>

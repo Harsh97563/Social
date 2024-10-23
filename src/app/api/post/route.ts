@@ -229,12 +229,22 @@ export async function GET(req: NextRequest) {
                   caption: true,
                   files: true,
                   likesCount: true,
+                  ...(session ? {
+                    LikedBy: {
+                        where: {
+                            userId: session.user.userId
+                        }
+                    }
+                  } : {}),
                   user: {
                     select: {
                       username: true,
                       profilePicSrc: true
                     }
                   }
+                },
+                orderBy: {
+                  createdAt: 'desc'
                 }
               }
             }

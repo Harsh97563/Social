@@ -20,8 +20,9 @@ function UserPosts({username}: UserPosts) {
 
                 setIsLoading(true)
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/post?username=${username}`)
+                console.log(response);
                 setUserPosts(response.data.posts.posts)
-    
+                
             } catch (error) {
                 
                 console.error("Error while fetching user's posts.", error);

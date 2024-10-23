@@ -217,10 +217,16 @@ export async function GET(req: NextRequest) {
         const username = url.searchParams.get("username");
 
         const session = await getServerSession(authOptions);
+        if (!username && !session?.user?.userId) {
+            throw new Error('Both username and userId are missing');
+        }
 
-        const response = await prisma.user.findUnique({
+        const response = await prisma.user.findFirst({
             where: {
-              ...(username ? { username } : { userId: session?.user.userId })
+                OR: [
+                    {username},
+                    { userId: session?.user.userId}
+                ]
             },
             select: {
               posts: {
@@ -243,12 +249,9 @@ export async function GET(req: NextRequest) {
                     }
                   }
                 },
-                orderBy: {
-                  createdAt: 'desc'
-                }
               }
             }
-          });
+        });
         
         return NextResponse.json({
             message: "User posts fetched successfully.",

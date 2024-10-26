@@ -12,7 +12,6 @@ import DaysOptionBtn from '@/components/DaysOptionBtn';
 import { useSession } from 'next-auth/react';
 import ConnectToTwitterBtn from '@/components/ConnectToTwitter';
 import axios from 'axios';
-import IsVerified from '@/components/isVerified';
 
 const Picker = dynamic(
   () => {

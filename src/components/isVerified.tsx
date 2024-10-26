@@ -19,7 +19,7 @@ function IsVerified() {
 
   return (
 
-    <div className={`${isVisible ? "flex" : "hidden"} fixed top-16 z-50 items-center justify-center bg-[#384B70] p-3 w-full md:font-semibold space-x-4`}>
+    <div className={`${isVisible ? "flex" : "hidden"} fixed top-16 left-0 z-50 items-center justify-center bg-[#384B70] p-3 w-full md:font-semibold space-x-4`}>
         <div className='text-white'>Verify yourself to post, comment, like.</div>
         <Link
         href={'/verify'}

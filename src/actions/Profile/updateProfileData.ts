@@ -56,7 +56,9 @@ export async function updateProfileData({data, type}: {data: string | FormData, 
         }
         
     } catch (error) {
+        
         console.log("Error while updating profile data.", error);
+
         return {
             success: false,
             message: "An error occured while updating profile."

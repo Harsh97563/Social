@@ -2,10 +2,11 @@
 import { updateProfileData } from '@/actions/Profile/updateProfileData';
 import { useToast } from '@/hooks/use-toast';
 import { ProfileType } from '@/types/profileType'
+import axios from 'axios';
 import { Loader2, Pencil, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image'
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 
 interface EditingModelType  {
     profileData: ProfileType, 
@@ -29,9 +30,42 @@ export enum updateType {
 function EditingModel({profileData, isEditing, setIsEditing, username, setUsername, email, setEmail, profilePicUrl, setProfilePicUrl}: EditingModelType ) {
 
     const [isUploading, setIsUploading] = useState(false);
+    const [isUsernameValid, setIsUsernameValid] = useState(true);
+    const [checkingUsername, setIsCheckingUsername] = useState(false)
     const inputRef = useRef<HTMLInputElement | null>(null);
     const {toast} = useToast();
     const { update } = useSession();
+
+    useEffect(() => {
+        
+        if(!checkingUsername || !username) return
+          
+           const timeout =  setTimeout(async() => {
+                try {
+                    
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profile?username=${username}`)
+                    
+                    if(response.data.valid) setIsUsernameValid(true) 
+                    else setIsUsernameValid(false)
+                    
+                } catch (error) {
+                    
+                    toast({
+                        title: "Error in checking for valid username.",
+                        duration: 2000,
+                        className: "border-2 border-red-900 text-white bg-gray-500"
+                    })
+                    
+                } finally {
+                    setIsCheckingUsername(false)
+                }
+            }, 400)
+
+          return () => {
+            clearTimeout(timeout)
+          }
+          
+    }, [username, checkingUsername, toast])
 
     async function handleUpdate({type, e}: {type: null | updateType, e: any | null}) {
         try {
@@ -148,9 +182,14 @@ function EditingModel({profileData, isEditing, setIsEditing, username, setUserna
                         }
                     }}
                     value={username || ""}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => {
+                        setUsername(e.target.value)
+                        setIsCheckingUsername(true)
+
+                    }}
                     disabled={isUploading}
                     />
+                    <div className={`text-red-500 font-medium pt-1 ${!isUsernameValid ? "flex" : "hidden"}`}>{checkingUsername ? <Loader2 className='text-white animate-spin'/> :"Username already taken."}</div>
                 </div>
                 <div className=' w-full'>
                     <p className='text-xl'>Email</p>

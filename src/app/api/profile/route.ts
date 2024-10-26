@@ -58,3 +58,49 @@ export async function POST(req: NextRequest) {
     
 }
 
+
+export async function GET(req: NextRequest) {
+    
+    try {
+        const session = await getServerSession(authOptions);
+
+        if(!session || !session.user) return NextResponse.json({
+                message: "Invalid Session."
+        }, { status: 404 })
+
+
+        const url = new URL(req.url);
+        const username = url.searchParams.get('username');
+
+        if(!username) return NextResponse.json({
+            message: "No query found."
+        }, { status: 400 })
+        
+        const user = await prisma.user.findUnique({
+            where: {
+                username
+            }
+        })
+
+        if(user) {
+            return NextResponse.json({
+                message: "User found successfully.",
+                valid: false
+            }, { status: 200 })
+        }
+
+        return NextResponse.json({
+            message: "User not found.",
+            valid: true
+        }, { status: 200 })
+
+
+    } catch (error) {
+        console.error("Error in searching the user.", error);
+        
+        return NextResponse.json({
+            message: "Error in searching the user.",
+        }, { status: 400 })
+    }
+}
+

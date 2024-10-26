@@ -61,7 +61,7 @@ function LikeBtn({postId, likes, likedBy}: LikeBtn) {
   
 
   return (
-    <motion.div className='flex text-center items-center justify-center text-xl space-x-1'
+    <motion.div className='flex text-center cursor-pointer items-center justify-center text-xl space-x-1 hover:text-red-800'
     animate= {{
       scale: liked ? [1, 1.2, 1] : 1,
       rotate: liked ? [0, 15, -15, 0]: 0,
@@ -69,6 +69,9 @@ function LikeBtn({postId, likes, likedBy}: LikeBtn) {
       transition: {
         duration: 0.5
       }
+    }}
+    whileHover={{
+      y: -3
     }}
     onClick={handleLike}
     >

@@ -9,12 +9,15 @@ function CommentBtn({postid}: {postid: string}) {
 
   return (
     <>
-        <motion.div
+        <motion.div className=' hover:text-backgroundSecond'
         animate= {{
             y: showComments ? [0, 50, 0] : 0,
             transition: {
                 duration: 0.3
             }
+        }}
+        whileHover={{
+          y: -3
         }}
         >
         <MessageCircle size={30}

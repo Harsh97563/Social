@@ -12,6 +12,7 @@ import DaysOptionBtn from '@/components/DaysOptionBtn';
 import { useSession } from 'next-auth/react';
 import ConnectToTwitterBtn from '@/components/ConnectToTwitter';
 import axios from 'axios';
+import IsVerified from '@/components/isVerified';
 
 const Picker = dynamic(
   () => {
@@ -126,7 +127,6 @@ function Post() {
   return (
 
     <div className='md:w-[720px] mx-3 border-2 border-black md:mx-auto mt-5 flex flex-col bg-[#384B70] rounded-sm p-5 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] '>
-
         <textarea
         value ={caption}
         placeholder='Give it a cool caption!'

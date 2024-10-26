@@ -48,7 +48,7 @@ function FeedPost({postData}: {postData: PostType}) {
         }
 
         {postData.caption? 
-        <div className={`w-full bg-[#7E60BF] border-black border-x-2 pl-4 whitespace-pre-line p-2 ${!postData.files.length ? "rounded-t-sm mt-2 border-t-2" : ""} `}>
+        <div className={`w-full text-lg font-medium bg-[#7E60BF] border-black border-x-2 pl-4 whitespace-pre-line p-2 ${!postData.files.length ? "rounded-t-sm mt-2 border-t-2" : ""} `}>
             {postData.caption}
         </div> : ""}
         

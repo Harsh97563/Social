@@ -223,10 +223,7 @@ export async function GET(req: NextRequest) {
 
         const response = await prisma.user.findFirst({
             where: {
-                OR: [
-                    {username},
-                    { userId: session?.user.userId}
-                ]
+                ...(username ? {username} : { userId: session?.user.userId})
             },
             select: {
               posts: {
